@@ -18,7 +18,27 @@
 
 
 
-  Description:
+  -----------------------------------------------------------------------------------
+  INSTALLATION:
+  -----------------------------------------------------------------------------------
+
+   run 
+      qmake
+      make
+      make install
+   to build and install the widget.
+
+   To make the widget available for the designer, please copy
+   lib/libskyplotwidgetdesigner.so into your qt-designer's library directory.
+   Linux users may check the environment-variable QT_PLUGIN_PATH.
+
+
+
+
+
+  -----------------------------------------------------------------------------------
+  Usage:
+  -----------------------------------------------------------------------------------
 
   Each satellite can be painted with a circle, a ring around the circle and a
   label. The satellites are addressed with an id.

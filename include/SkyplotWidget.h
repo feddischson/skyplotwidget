@@ -1,5 +1,5 @@
 // SkyplotWidget
-// Copyright (C) 2011 Christian Haettich feddischson[at]gmx.com
+// Copyright (C) 2011-2014 Christian Haettich feddischson[at]gmx.com
 //
 // This library is free software; you can redistribute it and/or
 // modify it under the terms of the GNU Lesser General Public
@@ -25,7 +25,10 @@
 
 #define MY_PI  3.141593
 
-class SkyplotWidget : public QWidget
+#include "SkyplotWidget_global.h"
+
+
+class SKYPLOTWIDGET_EXPORT SkyplotWidget : public QWidget
  {
      Q_OBJECT
 

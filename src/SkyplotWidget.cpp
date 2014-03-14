@@ -1,5 +1,5 @@
 // SkyplotWidget
-// Copyright (C) 2011 Christian Haettich feddischson[at]gmx.com
+// Copyright (C) 2011-2014 Christian Haettich feddischson[at]gmx.com
 //
 // This library is free software; you can redistribute it and/or
 // modify it under the terms of the GNU Lesser General Public
@@ -30,6 +30,9 @@ SkyplotWidget::SkyplotWidget(QWidget *parent)
 {
    p_antialiased     = true;
    noBlinkingSats    = 0;
+
+
+   // default values for the properties
    p_marginScale     = 0.78;
    p_gridColor       = QColor( 150, 150, 150, 255 );
    p_gridWidth       = 3;
@@ -66,13 +69,18 @@ void SkyplotWidget::paintEvent(QPaintEvent *)
 {
    QSize          widgetSize( this->size() );
    QPainter       painter(this);
+   QPalette       p = palette();
    float          topMargin ;
    float          leftMargin;
    float          size;
    float          satelliteSize;
    float          fontSize;
+   float          bottomMargin;
 
-   if( widgetSize.height() > widgetSize.width() )
+   float          availableWidth    = widgetSize.width ();
+   float          availableHeight   = widgetSize.height();
+
+   if( availableHeight > availableWidth )
    {
       size = widgetSize.width() * p_marginScale;
       topMargin   = ( widgetSize.width() - widgetSize.width() * p_marginScale + widgetSize.height() - widgetSize.width() ) / 2;
@@ -84,23 +92,25 @@ void SkyplotWidget::paintEvent(QPaintEvent *)
       leftMargin = ( widgetSize.height() - widgetSize.height() * p_marginScale + widgetSize.width() - widgetSize.height()) / 2;
       topMargin  = ( widgetSize.height() - widgetSize.height() * p_marginScale ) / 2;
    }
+   satelliteSize = size * p_satScale;
 
    painter.setRenderHint(QPainter::Antialiasing, p_antialiased);
    painter.translate( leftMargin, topMargin );
    fontSize = size * p_fontScale;
 
 
-
-
-   painter.setPen( QPen( p_gridColor, p_gridWidth ) );  
    painter.setFont( QFont( "Arial", (int)fontSize ) );
    for( int i=0; i < p_ellipses; i++ )
    {
       float radius = size / 2 - i * ( size / (2  * p_ellipses )  );
+      painter.setPen( QPen( p_gridColor, p_gridWidth ) );  
       painter.drawEllipse(  QPoint( size/2, size/2 ), (int)radius, (int)radius );
       if( p_withGridLabels )
+      {
+         painter.setPen( QPen( p.text( ).color( ), p_gridWidth ) );  
          painter.drawText( QPoint( size/2 + p_textMargin, size/2 - ( radius + p_textMargin ) ),  
                            QString("%1").arg( i * (90 / p_ellipses ) ) );
+      }
    }
 
 
@@ -108,7 +118,7 @@ void SkyplotWidget::paintEvent(QPaintEvent *)
    {
       QLineF line1;
       QLineF line2;
-      float angel = i * 90 / p_crosses;
+      float angle = i * 90 / p_crosses;
       line1.setP1( QPoint( size/2, size/2 ) );
       line1.setLength( size/2 );
 
@@ -116,55 +126,63 @@ void SkyplotWidget::paintEvent(QPaintEvent *)
       QRectF textRect( 0, 0, 4 * fontSize, fontSize + 2 );
 
 
-      line1.setAngle( angel + 90 );
+      line1.setAngle( angle + 90 );
+      painter.setPen( QPen( p_gridColor, p_gridWidth ) );  
       painter.drawLine( line1 );
       if( p_withGridLabels  )
       {
+         painter.setPen( QPen( p.text( ).color( ), p_gridWidth ) );  
          line2 = QLineF( line1 );
          line2.setLength( size/2 + 2 * fontSize );
          textRect.moveCenter( line2.p2() );
          if( i > 0 )
-            painter.drawText( textRect, Qt::AlignCenter, QString( "%1").arg( 360 - angel ) );
+            painter.drawText( textRect, Qt::AlignCenter, QString( "%1").arg( 360 - angle ) );
          else
             painter.drawText( textRect, Qt::AlignCenter, QString( "N") );
       }
 
       line1 = line1.normalVector();
+      painter.setPen( QPen( p_gridColor, p_gridWidth ) );  
       painter.drawLine( line1 );
       if( p_withGridLabels )
       {
+         painter.setPen( QPen( p.text( ).color( ), p_gridWidth ) );  
          line2 = QLineF( line1 );
          line2.setLength( size/2 + 2 * fontSize );
          textRect.moveCenter( line2.p2() );
          if( i > 0 )
-            painter.drawText( textRect, Qt::AlignCenter, QString( "%1").arg( 360 - 90 - angel ) );
+            painter.drawText( textRect, Qt::AlignCenter, QString( "%1").arg( 360 - 90 - angle ) );
          else
             painter.drawText( textRect, Qt::AlignCenter, QString( "W") );
 
       }
 
       line1 = line1.normalVector();
+      painter.setPen( QPen( p_gridColor, p_gridWidth ) );  
       painter.drawLine( line1 );
       if( p_withGridLabels )
       {
+         painter.setPen( QPen( p.text( ).color( ), p_gridWidth ) );  
          line2 = QLineF( line1 );
          line2.setLength( size/2 + 2 * fontSize );
          textRect.moveCenter( line2.p2() );
          if( i > 0 )
-            painter.drawText( textRect, Qt::AlignCenter, QString( "%1").arg( 360 - 180 - angel ) );
+            painter.drawText( textRect, Qt::AlignCenter, QString( "%1").arg( 360 - 180 - angle ) );
          else
             painter.drawText( textRect, Qt::AlignCenter, QString( "S") );
       }
 
       line1 = line1.normalVector();
+      painter.setPen( QPen( p_gridColor, p_gridWidth ) );  
       painter.drawLine( line1 );
       if( p_withGridLabels )
       {
+         painter.setPen( QPen( p.text( ).color( ), p_gridWidth ) );  
          line2 = QLineF( line1 );
          line2.setLength( size/2 + 2 * fontSize );
          textRect.moveCenter( line2.p2() );
          if( i > 0 )
-            painter.drawText( textRect, Qt::AlignCenter, QString( "%1").arg( 360 - 270 - angel ) );
+            painter.drawText( textRect, Qt::AlignCenter, QString( "%1").arg( 360 - 270 - angle ) );
          else
             painter.drawText( textRect, Qt::AlignCenter, QString( "E") );
       }
@@ -176,8 +194,6 @@ void SkyplotWidget::paintEvent(QPaintEvent *)
    QBrush outerBrush = QBrush( );
 
 
-
-   satelliteSize = size * p_satScale;
 
 
    for( I_satellite i= satellites.begin(); i != satellites.end(); i++ )

@@ -1,5 +1,5 @@
 // SkyplotWidget
-// Copyright (C) 2011 Christian Haettich feddischson[at]gmx.com
+// Copyright (C) 2011-2014 Christian Haettich feddischson[at]gmx.com
 //
 // This library is free software; you can redistribute it and/or
 // modify it under the terms of the GNU Lesser General Public
@@ -42,7 +42,7 @@ SkyplotWidgetPlugin::name ( void ) const
 QString  
 SkyplotWidgetPlugin::includeFile ( void ) const
 {
-   return QString( "" );
+   return QString( "SkyplotWidget.h" );
 }
 
 QString  
@@ -61,14 +61,14 @@ SkyplotWidgetPlugin::icon ( void ) const
 QString  
 SkyplotWidgetPlugin::toolTip ( void ) const
 {
-   return QString( "" );
+   return QString( "Skyplot Widget" );
 
 }
 
 QString  
 SkyplotWidgetPlugin::whatsThis ( void ) const
 {
-   return QString( "" );
+   return QString( "Skyplot Widget to visualize satellite position data" );
 
 }
 
