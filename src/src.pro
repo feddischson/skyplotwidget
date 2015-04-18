@@ -6,7 +6,7 @@ OBJECTS_DIR       = tmp
 INCLUDEPATH       = ../include
 DEPENDPATH        = ../include ../src
 DESTDIR           = ../lib
-HEADERS          += ../include/SkyplotWidget.h           
+HEADERS          += ../include/SkyplotWidget.h ../include/SkyplotWidget_global.h
 SOURCES          += ../src/SkyplotWidget.cpp         
 VERSION           = 1.0.1
 
