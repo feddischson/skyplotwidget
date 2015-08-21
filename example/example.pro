@@ -7,7 +7,20 @@ DEPENDPATH        = .
 DESTDIR           = .
 QT               += 
 INCLUDEPATH       = . ../include/
+include(../SkyplotWidget.pri)
+!contains(DEFINES, SKYPLOT_QML_SUPPORT) {
+    QT += gui widgets
+    HEADERS += Window.h
+    SOURCES += Window.cpp
+} else {
+    QT += qml quick
+    OTHER_FILES += \
+    main.qml
+}
 
-HEADERS += Window.h
-SOURCES += main.cpp Window.cpp
+SOURCES += main.cpp
 LIBS += -L../lib -lskyplotwidget
+
+RESOURCES += \
+    resources.qrc
+

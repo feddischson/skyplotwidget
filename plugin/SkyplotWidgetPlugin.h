@@ -15,12 +15,13 @@
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 
-
+#include <QtGlobal>
 #include <QDesignerCustomWidgetInterface>
 
 class SkyplotWidgetPlugin : public QObject, public QDesignerCustomWidgetInterface
 {
    Q_OBJECT
+   Q_PLUGIN_METADATA(IID "org.qt-project.Qt.QDesignerCustomWidgetInterface" FILE "skyplotwidget.json")
    Q_INTERFACES(QDesignerCustomWidgetInterface)
 
    public:
@@ -31,10 +32,14 @@ class SkyplotWidgetPlugin : public QObject, public QDesignerCustomWidgetInterfac
       QString  includeFile ( void ) const;
       QString  group       ( void ) const;
       QIcon    icon        ( void ) const;
+      QString  domXml() const;
       QString  toolTip     ( void ) const;
       QString  whatsThis   ( void ) const;
       bool     isContainer ( void ) const;
+      void     initialize(QDesignerFormEditorInterface *core);
+      bool     isInitialized() const;
       QWidget* createWidget( QWidget* parent );
-
+private:
+      bool initialized;
 };
 

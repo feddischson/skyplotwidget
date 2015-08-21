@@ -20,15 +20,24 @@
 #ifndef _SKYPLOT_WIDGET_H
 #define _SKYPLOT_WIDGET_H
 #include <QMap>
-#include <QWidget>
 #include <QTimer>
+
+#ifndef SKYPLOT_QML_SUPPORT
+#include <QWidget>
+#else
+#include <QtQml>
+#include <QQuickPaintedItem>
+#endif
 
 #define MY_PI  3.141593
 
 #include "SkyplotWidget_global.h"
 
-
+#ifndef SKYPLOT_QML_SUPPORT
 class SKYPLOTWIDGET_EXPORT SkyplotWidget : public QWidget
+#else
+class SKYPLOTWIDGET_EXPORT SkyplotWidget : public QQuickPaintedItem
+#endif
  {
      Q_OBJECT
 
@@ -47,7 +56,15 @@ class SKYPLOTWIDGET_EXPORT SkyplotWidget : public QWidget
 
 
  public:
+#ifndef SKYPLOT_QML_SUPPORT
       SkyplotWidget(QWidget *parent = 0);
+#else
+      SkyplotWidget(QQuickPaintedItem *parent = 0);
+      static void declareQml() {
+          qmlRegisterType<SkyplotWidget>("SkyplotWidget", 0, 1,
+                                           "SkyplotWidget");
+      }
+#endif
 
 
       void addSatellite(  int id, 
@@ -117,7 +134,11 @@ class SKYPLOTWIDGET_EXPORT SkyplotWidget : public QWidget
 
 
  protected:
+#ifndef SKYPLOT_QML_SUPPORT
       void paintEvent(QPaintEvent *event);
+#else
+      void paint(QPainter *painter);
+#endif
 
  private:
 
