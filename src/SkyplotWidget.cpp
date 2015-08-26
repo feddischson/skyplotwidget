@@ -32,22 +32,20 @@ SkyplotWidget::SkyplotWidget(QWidget *parent)
 SkyplotWidget::SkyplotWidget(QQuickPaintedItem *parent)
     : QQuickPaintedItem(parent)
 #endif
+    , p_antialiased( true )
+    , noBlinkingSats( 0 )
+    , p_marginScale( 0.78 )
+    , p_gridColor( QColor( 150, 150, 150, 255 ) )
+    , p_gridWidth(3)
+    , p_textMargin(10)
+    , p_withGridLabels(true)
+    , p_ellipses(3)
+    , p_crosses(3)
+    , p_blinkIntervall(500)
+    , p_satScale(0.03)
+    , p_fontScale(0.02)
+    , blink(false)
 {
-   p_antialiased     = true;
-   noBlinkingSats    = 0;
-
-
-   // default values for the properties
-   p_marginScale     = 0.78;
-   p_gridColor       = QColor( 150, 150, 150, 255 );
-   p_gridWidth       = 3;
-   p_textMargin      = 10;
-   p_withGridLabels  = true;
-   p_ellipses        = 3;
-   p_crosses         = 3;
-   p_blinkIntervall  = 500;
-   p_satScale        = 0.03;
-   p_fontScale       = 0.02;
 
 #ifndef SKYPLOT_QML_SUPPORT
    setBackgroundRole(QPalette::Base);
@@ -61,10 +59,7 @@ SkyplotWidget::SkyplotWidget(QQuickPaintedItem *parent)
 
 void SkyplotWidget::change_blink( void )
 {
-   if( blink )
-      blink = false;
-   else
-      blink = true;
+   blink = !blink;
    this->update();
 }
 
