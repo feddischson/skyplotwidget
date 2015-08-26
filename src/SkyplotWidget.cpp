@@ -374,6 +374,12 @@ SkyplotWidget::removeSatellite( int id )
 }
 
 
+bool SkyplotWidget::isSatExists(int id)
+{
+    return satellites.contains( id );
+}
+
+
 
 
 QColor 

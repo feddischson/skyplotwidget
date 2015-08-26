@@ -67,23 +67,6 @@ class SKYPLOTWIDGET_EXPORT SkyplotWidget : public QQuickPaintedItem
 #endif
 
 
-      void addSatellite(  int id, 
-                                float     az,
-                                float     el,
-                          const QString & label, 
-                          const QColor  & outerColor, 
-                          const QColor  & innerColor,
-                          const QColor  & fontColor,
-                          bool  state1   = true,
-                          bool  state2   = true,
-                          bool  state3   = true,
-                          bool  blinking = true);
-
-      void removeSatellite( int id );
-
-
-
-
       void     setMarginScale    ( float          scale ){ p_marginScale    = scale;       this->update(); }
       void     setSatelliteScale ( float          scale ){ p_satScale       = scale;       this->update(); }
       void     setFontScale      ( float          scale ){ p_fontScale      = scale;       this->update(); }
@@ -131,6 +114,25 @@ class SKYPLOTWIDGET_EXPORT SkyplotWidget : public QQuickPaintedItem
       void     setSatLabel       ( int id, const QString & label  );
       void     setSatAzimuth     ( int id, float az               );
       void     setSatElevation   ( int id, float el               );
+
+
+ public slots:
+
+      void addSatellite(  int id,
+                          float     az,
+                          float     el,
+                          const QString & label,
+                          const QColor  & outerColor,
+                          const QColor  & innerColor,
+                          const QColor  & fontColor,
+                          bool  state1   = true,
+                          bool  state2   = true,
+                          bool  state3   = true,
+                          bool  blinking = true);
+
+      void removeSatellite( int id );
+
+      bool isSatExists( int id );
 
 
  protected:
