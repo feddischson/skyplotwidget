@@ -32,19 +32,20 @@ SkyplotWidget::SkyplotWidget(QWidget *parent)
 SkyplotWidget::SkyplotWidget(QQuickPaintedItem *parent)
     : QQuickPaintedItem(parent)
 #endif
-    , p_antialiased( true )
     , noBlinkingSats( 0 )
+    , blink( false )
     , p_marginScale( 0.78 )
+    , p_satScale( 0.03 )
+    , p_fontScale( 0.02 )
     , p_gridColor( QColor( 150, 150, 150, 255 ) )
-    , p_gridWidth(3)
-    , p_textMargin(10)
-    , p_withGridLabels(true)
-    , p_ellipses(3)
-    , p_crosses(3)
-    , p_blinkIntervall(500)
-    , p_satScale(0.03)
-    , p_fontScale(0.02)
-    , blink(false)
+    , p_gridTextColor( QColor( 0, 0, 0, 255 ) )
+    , p_gridWidth( 3 )
+    , p_ellipses( 3 )
+    , p_crosses( 3 )
+    , p_textMargin( 10 )
+    , p_blinkIntervall( 500 )
+    , p_withGridLabels( true )
+    , p_antialiased( true )
 {
 
 #ifndef SKYPLOT_QML_SUPPORT
@@ -118,7 +119,7 @@ void SkyplotWidget::paint(QPainter *painter)
       painter->drawEllipse(  QPoint( size/2, size/2 ), (int)radius, (int)radius );
       if( p_withGridLabels )
       {
-         painter->setPen( QPen( p.text( ).color( ), p_gridWidth ) );
+         painter->setPen( QPen( p_gridTextColor, p_gridWidth ) );
          painter->drawText( QPoint( size/2 + p_textMargin, size/2 - ( radius + p_textMargin ) ),
                            QString("%1").arg( i * (90 / p_ellipses ) ) );
       }
@@ -142,7 +143,7 @@ void SkyplotWidget::paint(QPainter *painter)
       painter->drawLine( line1 );
       if( p_withGridLabels  )
       {
-         painter->setPen( QPen( p.text( ).color( ), p_gridWidth ) );
+         painter->setPen( QPen( p_gridTextColor, p_gridWidth ) );
          line2 = QLineF( line1 );
          line2.setLength( size/2 + 2 * fontSize );
          textRect.moveCenter( line2.p2() );
@@ -157,7 +158,7 @@ void SkyplotWidget::paint(QPainter *painter)
       painter->drawLine( line1 );
       if( p_withGridLabels )
       {
-         painter->setPen( QPen( p.text( ).color( ), p_gridWidth ) );
+         painter->setPen( QPen( p_gridTextColor, p_gridWidth ) );
          line2 = QLineF( line1 );
          line2.setLength( size/2 + 2 * fontSize );
          textRect.moveCenter( line2.p2() );
@@ -173,7 +174,7 @@ void SkyplotWidget::paint(QPainter *painter)
       painter->drawLine( line1 );
       if( p_withGridLabels )
       {
-         painter->setPen( QPen( p.text( ).color( ), p_gridWidth ) );
+         painter->setPen( QPen( p_gridTextColor, p_gridWidth ) );
          line2 = QLineF( line1 );
          line2.setLength( size/2 + 2 * fontSize );
          textRect.moveCenter( line2.p2() );
@@ -188,7 +189,7 @@ void SkyplotWidget::paint(QPainter *painter)
       painter->drawLine( line1 );
       if( p_withGridLabels )
       {
-         painter->setPen( QPen( p.text( ).color( ), p_gridWidth ) );
+         painter->setPen( QPen( p_gridTextColor, p_gridWidth ) );
          line2 = QLineF( line1 );
          line2.setLength( size/2 + 2 * fontSize );
          textRect.moveCenter( line2.p2() );
