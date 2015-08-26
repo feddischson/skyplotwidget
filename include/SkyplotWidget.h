@@ -104,17 +104,6 @@ class SKYPLOTWIDGET_EXPORT SkyplotWidget : public QQuickPaintedItem
       float    satAzimuth        ( int id );
       float    satElevation      ( int id );
 
-      void     setSatBlinking    ( int id, bool  state            );
-      void     setSatInnerColor  ( int id, const QColor & c       );
-      void     setSatOuterColor  ( int id, const QColor & c       );
-      void     setSatFontColor   ( int id, const QColor & c       );
-      void     setSatState1      ( int id, bool  state            );
-      void     setSatState2      ( int id, bool  state            );
-      void     setSatState3      ( int id, bool  state            );
-      void     setSatLabel       ( int id, const QString & label  );
-      void     setSatAzimuth     ( int id, float az               );
-      void     setSatElevation   ( int id, float el               );
-
 
  public slots:
 
@@ -133,6 +122,17 @@ class SKYPLOTWIDGET_EXPORT SkyplotWidget : public QQuickPaintedItem
       void removeSatellite( int id );
 
       bool isSatExists( int id );
+
+      void     setSatBlinking    ( int id, bool  state            );
+      void     setSatInnerColor  ( int id, const QColor & c       );
+      void     setSatOuterColor  ( int id, const QColor & c       );
+      void     setSatFontColor   ( int id, const QColor & c       );
+      void     setSatState1      ( int id, bool  state            );
+      void     setSatState2      ( int id, bool  state            );
+      void     setSatState3      ( int id, bool  state            );
+      void     setSatLabel       ( int id, const QString & label  );
+      void     setSatAzimuth     ( int id, float az               );
+      void     setSatElevation   ( int id, float el               );
 
 
  protected:
