@@ -1,0 +1,40 @@
+# Compiled Object files
+*.slo
+*.lo
+*.o
+*.obj
+
+# moc-files
+moc_*.cpp
+
+
+# ui-h-files
+ui_*.h
+
+# Precompiled Headers
+*.gch
+*.pch
+
+# Compiled Dynamic libraries
+*.so
+*.dylib
+*.dll
+
+# Fortran module files
+*.mod
+
+# Compiled Static libraries
+*.lai
+*.la
+*.a
+*.lib
+
+# Executables
+*.exe
+*.out
+*.app
+
+Makefile
+example/skyplotwidget
+example/qrc_resources.cpp
+lib
