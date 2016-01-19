@@ -14,7 +14,7 @@
 #ifndef SKYPLOT_QML_SUPPORT
      QApplication app(argc, argv);
      Window window;
-   
+
     QPalette p( window.palette() );
     p.setColor( QPalette::Background, Qt::black );
     window.setPalette( p );

@@ -18,8 +18,10 @@ include(../SkyplotWidget.pri)
 
 !contains(DEFINES, SKYPLOT_QML_SUPPORT) {
     QT      += designer widgets gui
-    HEADERS +=  SkyplotWidgetPlugin.h   ../include/SkyplotWidget.h
-    SOURCES +=  SkyplotWidgetPlugin.cpp ../src/SkyplotWidget.cpp
+    HEADERS +=  SkyplotWidgetPlugin.h   
+    SOURCES +=  SkyplotWidgetPlugin.cpp 
+} else {
+  QT += qml quick
 }
 
 OTHER_FILES += \
