@@ -20,15 +20,24 @@
 #ifndef _SKYPLOT_WIDGET_H
 #define _SKYPLOT_WIDGET_H
 #include <QMap>
-#include <QWidget>
 #include <QTimer>
+
+#ifndef SKYPLOT_QML_SUPPORT
+#include <QWidget>
+#else
+#include <QtQml>
+#include <QQuickPaintedItem>
+#endif
 
 #define MY_PI  3.141593
 
 #include "SkyplotWidget_global.h"
 
-
+#ifndef SKYPLOT_QML_SUPPORT
 class SKYPLOTWIDGET_EXPORT SkyplotWidget : public QWidget
+#else
+class SKYPLOTWIDGET_EXPORT SkyplotWidget : public QQuickPaintedItem
+#endif
  {
      Q_OBJECT
 
@@ -37,6 +46,7 @@ class SKYPLOTWIDGET_EXPORT SkyplotWidget : public QWidget
      Q_PROPERTY( float  satelliteScale    READ satelliteScale  WRITE setSatelliteScale )
      Q_PROPERTY( float  fontScale         READ fontScale       WRITE setFontScale      )
      Q_PROPERTY( QColor gridColor         READ gridColor       WRITE setGridColor      )
+     Q_PROPERTY( QColor gridTextColor     READ gridTextColor   WRITE setGridTextColor  )
      Q_PROPERTY( int    gridWidth         READ gridWidth       WRITE setGridWidth      )
      Q_PROPERTY( int    ellipses          READ ellipses        WRITE setEllipses       )
      Q_PROPERTY( int    crosses           READ crosses         WRITE setCrosses        )
@@ -47,30 +57,22 @@ class SKYPLOTWIDGET_EXPORT SkyplotWidget : public QWidget
 
 
  public:
+#ifndef SKYPLOT_QML_SUPPORT
       SkyplotWidget(QWidget *parent = 0);
-
-
-      void addSatellite(  int id, 
-                                float     az,
-                                float     el,
-                          const QString & label, 
-                          const QColor  & outerColor, 
-                          const QColor  & innerColor,
-                          const QColor  & fontColor,
-                          bool  state1   = true,
-                          bool  state2   = true,
-                          bool  state3   = true,
-                          bool  blinking = true);
-
-      void removeSatellite( int id );
-
-
+#else
+      SkyplotWidget(QQuickPaintedItem *parent = 0);
+      static void declareQml() {
+          qmlRegisterType<SkyplotWidget>("SkyplotWidget", 0, 1,
+                                           "SkyplotWidget");
+      }
+#endif
 
 
       void     setMarginScale    ( float          scale ){ p_marginScale    = scale;       this->update(); }
       void     setSatelliteScale ( float          scale ){ p_satScale       = scale;       this->update(); }
       void     setFontScale      ( float          scale ){ p_fontScale      = scale;       this->update(); }
       void     setGridColor      ( const QColor & color ){ p_gridColor      = color;       this->update(); }
+      void     setGridTextColor  ( const QColor & color ){ p_gridTextColor  = color;       this->update(); }
       void     setGridWidth      ( int            width ){ p_gridWidth      = width;       this->update(); }
       void     setEllipses       ( int               no ){ p_ellipses       = no;          this->update(); }
       void     setCrosses        ( int               no ){ p_crosses        = no;          this->update(); }
@@ -80,17 +82,18 @@ class SKYPLOTWIDGET_EXPORT SkyplotWidget : public QWidget
       void     setAntialiased    ( int      antialiased ){ p_antialiased    = antialiased; this->update(); }
 
 
-      float    marginScale       ( void ){ return p_marginScale;    }
-      float    satelliteScale    ( void ){ return p_satScale;       }
-      float    fontScale         ( void ){ return p_fontScale;      }
-      QColor   gridColor         ( void ){ return p_gridColor;      }
-      int      gridWidth         ( void ){ return p_gridWidth;      }
-      int      ellipses          ( void ){ return p_ellipses;       }
-      int      crosses           ( void ){ return p_crosses;        }
-      int      textMargin        ( void ){ return p_textMargin;     }
-      int      blinkIntervall    ( void ){ return p_blinkIntervall; }
-      int      withGridLabels    ( void ){ return p_withGridLabels; }
-      int      antialiased       ( void ){ return p_antialiased;    }
+      float    marginScale       ( void ) const { return p_marginScale;    }
+      float    satelliteScale    ( void ) const { return p_satScale;       }
+      float    fontScale         ( void ) const { return p_fontScale;      }
+const QColor & gridColor         ( void ) const { return p_gridColor;      }
+const QColor & gridTextColor     ( void ) const { return p_gridTextColor;  }
+      int      gridWidth         ( void ) const { return p_gridWidth;      }
+      int      ellipses          ( void ) const { return p_ellipses;       }
+      int      crosses           ( void ) const { return p_crosses;        }
+      int      textMargin        ( void ) const { return p_textMargin;     }
+      int      blinkIntervall    ( void ) const { return p_blinkIntervall; }
+      int      withGridLabels    ( void ) const { return p_withGridLabels; }
+      int      antialiased       ( void ) const { return p_antialiased;    }
       
 
       bool     satIsBlinking     ( int id );
@@ -103,6 +106,25 @@ class SKYPLOTWIDGET_EXPORT SkyplotWidget : public QWidget
       QString  satLabel          ( int id );
       float    satAzimuth        ( int id );
       float    satElevation      ( int id );
+
+
+ public slots:
+
+      void addSatellite(  int id,
+                          float     az,
+                          float     el,
+                          const QString & label,
+                          const QColor  & outerColor,
+                          const QColor  & innerColor,
+                          const QColor  & fontColor,
+                          bool  state1   = true,
+                          bool  state2   = true,
+                          bool  state3   = true,
+                          bool  blinking = true);
+
+      void removeSatellite( int id );
+
+      bool isSatExists( int id );
 
       void     setSatBlinking    ( int id, bool  state            );
       void     setSatInnerColor  ( int id, const QColor & c       );
@@ -117,7 +139,11 @@ class SKYPLOTWIDGET_EXPORT SkyplotWidget : public QWidget
 
 
  protected:
+#ifndef SKYPLOT_QML_SUPPORT
       void paintEvent(QPaintEvent *event);
+#else
+      void paint(QPainter *painter);
+#endif
 
  private:
 
@@ -131,6 +157,7 @@ class SKYPLOTWIDGET_EXPORT SkyplotWidget : public QWidget
       float     p_satScale;
       float     p_fontScale;
       QColor    p_gridColor;
+      QColor    p_gridTextColor;
       int       p_gridWidth;
       int       p_ellipses;
       int       p_crosses;

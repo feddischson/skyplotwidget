@@ -1,6 +1,6 @@
 TARGET            = skyplotwidget
 TEMPLATE          = lib
-CONFIG           += qt warn_on debug 
+CONFIG           += qt warn_on debug
 MOC_DIR           = tmp
 OBJECTS_DIR       = tmp
 INCLUDEPATH       = ../include
@@ -10,6 +10,13 @@ HEADERS          += ../include/SkyplotWidget.h ../include/SkyplotWidget_global.h
 SOURCES          += ../src/SkyplotWidget.cpp         
 VERSION           = 1.0.1
 
+include(../SkyplotWidget.pri)
+
+!contains(DEFINES, SKYPLOT_QML_SUPPORT) {
+    QT += gui widgets designer
+} else {
+    QT += qml quick
+}
 
 isEmpty(PREFIX) {
   PREFIX=/usr/local

@@ -23,6 +23,8 @@
 
 
 SkyplotWidgetPlugin::SkyplotWidgetPlugin( QObject* parent )
+    : QObject(parent)
+    , initialized(false)
 {
 
 }
@@ -48,14 +50,37 @@ SkyplotWidgetPlugin::includeFile ( void ) const
 QString  
 SkyplotWidgetPlugin::group ( void ) const
 {
-   return QString( "" );
+   return QString( "Display Widgets [Examples]" );
 
 }
 
 QIcon    
 SkyplotWidgetPlugin::icon ( void ) const
 {
-   return QIcon();
+    return QIcon();
+}
+
+QString
+SkyplotWidgetPlugin::domXml() const
+{
+    return "<ui language=\"c++\">\n"
+            " <widget class=\"SkyplotWidget\" name=\"skyplotWidget\">\n"
+            "  <property name=\"geometry\">\n"
+            "   <rect>\n"
+            "    <x>0</x>\n"
+            "    <y>0</y>\n"
+            "    <width>300</width>\n"
+            "    <height>300</height>\n"
+            "   </rect>\n"
+            "  </property>\n"
+            "  <property name=\"toolTip\" >\n"
+            "   <string>The skyplot satellite widget</string>\n"
+            "  </property>\n"
+            "  <property name=\"whatsThis\" >\n"
+            "   <string>The skyplot widget displays the satellite constellation.</string>\n"
+            "  </property>\n"
+            " </widget>\n"
+            "</ui>\n";
 }
 
 QString  
@@ -75,7 +100,22 @@ SkyplotWidgetPlugin::whatsThis ( void ) const
 bool     
 SkyplotWidgetPlugin::isContainer ( void ) const
 {
-   return false;
+    return false;
+}
+
+void
+SkyplotWidgetPlugin::initialize(QDesignerFormEditorInterface * /* core */)
+{
+    if (initialized)
+        return;
+
+    initialized = true;
+}
+
+bool
+SkyplotWidgetPlugin::isInitialized() const
+{
+    return initialized;
 }
 
 QWidget* 
@@ -83,9 +123,3 @@ SkyplotWidgetPlugin::createWidget( QWidget* parent )
 {
    return new SkyplotWidget( parent );
 }
-
-
-
-
-Q_EXPORT_PLUGIN2( SkyplotWidget, SkyplotWidgetPlugin )
-

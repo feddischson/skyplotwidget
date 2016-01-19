@@ -2,6 +2,7 @@
  #define WINDOW_H
  #include "SkyplotWidget.h"
  #include <QWidget>
+ #include <QGridLayout>
 
 
  class Window : public QWidget
