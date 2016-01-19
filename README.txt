@@ -1,52 +1,41 @@
-  SkyplotWidget
-  Copyright (C) 2011 Christian Haettich feddischson[at]gmx.com
-  
-  This library is free software; you can redistribute it and/or
-  modify it under the terms of the GNU Lesser General Public
-  License as published by the Free Software Foundation; either
-  version 3 of the License, or (at your option) any later version.
-  
-  This library is distributed in the hope that it will be useful,
-  but WITHOUT ANY WARRANTY; without even the implied warranty of
-  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-  Lesser General Public License for more details.
-  
-  You should have received a copy of the GNU Lesser General Public
-  License along with this library; if not, write to the Free Software
-  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
-  -----------------------------------------------------------------------------------
+
+Introduction
+=============
+The Skyplot widget is a small QT library to visualize satellite skyplots.
 
 
 
-  -----------------------------------------------------------------------------------
-  INSTALLATION:
-  -----------------------------------------------------------------------------------
+INSTALLATION:
+===============
 
-   run 
+
+   run
+
+```
       qmake
       make
       make install
+```
    to build and install the widget.
 
    To make the widget available for the designer, please copy
    lib/libskyplotwidgetdesigner.so into your qt-designer's library directory.
-   Linux users may check the environment-variable QT_PLUGIN_PATH.
+   Linux users may check the environment-variable `QT_PLUGIN_PATH`.
 
 
 
 
 
-  -----------------------------------------------------------------------------------
-  Usage:
-  -----------------------------------------------------------------------------------
+Usage:
+=========
 
-  Each satellite can be painted with a circle, a ring around the circle and a
-  label. The satellites are addressed with an id.
-  Depending on the state (state1, state2, state3 and blinking), the circle,
-  the ring is painted or not, is painted with alpha = 0.3 or/and blinks.
-  
+Each satellite can be painted with a circle, a ring around the circle and a
+label. The satellites are addressed with an id.
+Depending on the state (state1, state2, state3 and blinking), the circle,
+the ring is painted or not, is painted with alpha = 0.3 or/and blinks.
 
 
+```
      //
      // use this function to add a satellite
      //
@@ -133,6 +122,26 @@
 
      // turn on/off anti-aliasing
      void     setAntialiased    ( int      antialiased );
+```
 
+License
+===============
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  SkyplotWidget
+  Copyright (C) 2011-2016 Christian Haettich feddischson[at]gmx.com
 
+  This library is free software; you can redistribute it and/or
+  modify it under the terms of the GNU Lesser General Public
+  License as published by the Free Software Foundation; either
+  version 3 of the License, or (at your option) any later version.
+
+  This library is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+  Lesser General Public License for more details.
+
+  You should have received a copy of the GNU Lesser General Public
+  License along with this library; if not, write to the Free Software
+  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
