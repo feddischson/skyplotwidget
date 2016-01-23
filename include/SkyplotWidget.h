@@ -1,5 +1,5 @@
 // SkyplotWidget
-// Copyright (C) 2011-2014 Christian Haettich feddischson[at]gmx.com
+// Copyright (C) 2011-2016 Christian Haettich feddischson[at]gmx.com
 //
 // This library is free software; you can redistribute it and/or
 // modify it under the terms of the GNU Lesser General Public
@@ -38,157 +38,157 @@ class SKYPLOTWIDGET_EXPORT SkyplotWidget : public QWidget
 #else
 class SKYPLOTWIDGET_EXPORT SkyplotWidget : public QQuickPaintedItem
 #endif
- {
-     Q_OBJECT
+{
+   Q_OBJECT
 
-     Q_CLASSINFO( "Version", "0.0.1" )
-     Q_PROPERTY( float  marginScale       READ marginScale     WRITE setMarginScale    )
-     Q_PROPERTY( float  satelliteScale    READ satelliteScale  WRITE setSatelliteScale )
-     Q_PROPERTY( float  fontScale         READ fontScale       WRITE setFontScale      )
-     Q_PROPERTY( QColor gridColor         READ gridColor       WRITE setGridColor      )
-     Q_PROPERTY( QColor gridTextColor     READ gridTextColor   WRITE setGridTextColor  )
-     Q_PROPERTY( int    gridWidth         READ gridWidth       WRITE setGridWidth      )
-     Q_PROPERTY( int    ellipses          READ ellipses        WRITE setEllipses       )
-     Q_PROPERTY( int    crosses           READ crosses         WRITE setCrosses        )
-     Q_PROPERTY( int    textMargin        READ textMargin      WRITE setTextMargin     )
-     Q_PROPERTY( int    blinkIntervall    READ blinkIntervall  WRITE setBlinkIntervall )
-     Q_PROPERTY( bool   withGridLabels    READ withGridLabels  WRITE setWithGridLabels )
-     Q_PROPERTY( bool   antialiased       READ antialiased     WRITE setAntialiased    )
+   Q_CLASSINFO( "Version", "0.0.1" )
+   Q_PROPERTY( float  marginScale       READ marginScale     WRITE setMarginScale    )
+   Q_PROPERTY( float  satelliteScale    READ satelliteScale  WRITE setSatelliteScale )
+   Q_PROPERTY( float  fontScale         READ fontScale       WRITE setFontScale      )
+   Q_PROPERTY( QColor gridColor         READ gridColor       WRITE setGridColor      )
+   Q_PROPERTY( QColor gridTextColor     READ gridTextColor   WRITE setGridTextColor  )
+   Q_PROPERTY( int    gridWidth         READ gridWidth       WRITE setGridWidth      )
+   Q_PROPERTY( int    ellipses          READ ellipses        WRITE setEllipses       )
+   Q_PROPERTY( int    crosses           READ crosses         WRITE setCrosses        )
+   Q_PROPERTY( int    textMargin        READ textMargin      WRITE setTextMargin     )
+   Q_PROPERTY( int    blinkIntervall    READ blinkIntervall  WRITE setBlinkIntervall )
+   Q_PROPERTY( bool   withGridLabels    READ withGridLabels  WRITE setWithGridLabels )
+   Q_PROPERTY( bool   antialiased       READ antialiased     WRITE setAntialiased    )
 
 
- public:
+public:
 #ifndef SKYPLOT_QML_SUPPORT
-      SkyplotWidget(QWidget *parent = 0);
+   SkyplotWidget(QWidget *parent = 0);
 #else
-      SkyplotWidget(QQuickPaintedItem *parent = 0);
-      static void declareQml() {
-          qmlRegisterType<SkyplotWidget>("SkyplotWidget", 0, 1,
-                                           "SkyplotWidget");
-      }
+   SkyplotWidget(QQuickPaintedItem *parent = 0);
+   static void declareQml() {
+      qmlRegisterType<SkyplotWidget>("SkyplotWidget", 0, 1, "SkyplotWidget");
+   }
 #endif
 
 
-      void     setMarginScale    ( float          scale ){ p_marginScale    = scale;       this->update(); }
-      void     setSatelliteScale ( float          scale ){ p_satScale       = scale;       this->update(); }
-      void     setFontScale      ( float          scale ){ p_fontScale      = scale;       this->update(); }
-      void     setGridColor      ( const QColor & color ){ p_gridColor      = color;       this->update(); }
-      void     setGridTextColor  ( const QColor & color ){ p_gridTextColor  = color;       this->update(); }
-      void     setGridWidth      ( int            width ){ p_gridWidth      = width;       this->update(); }
-      void     setEllipses       ( int               no ){ p_ellipses       = no;          this->update(); }
-      void     setCrosses        ( int               no ){ p_crosses        = no;          this->update(); }
-      void     setTextMargin     ( int           margin ){ p_textMargin     = margin;      this->update(); }
-      void     setBlinkIntervall ( int        intervall ){ p_blinkIntervall = intervall;   this->update(); }
-      void     setWithGridLabels ( int       withLabels ){ p_withGridLabels = withLabels;  this->update(); }
-      void     setAntialiased    ( int      antialiased ){ p_antialiased    = antialiased; this->update(); }
+   void  setMarginScale    ( float          scale ){ p_marginScale    = scale;       this->update(); }
+   void  setSatelliteScale ( float          scale ){ p_satScale       = scale;       this->update(); }
+   void  setFontScale      ( float          scale ){ p_fontScale      = scale;       this->update(); }
+   void  setGridColor      ( const QColor & color ){ p_gridColor      = color;       this->update(); }
+   void  setGridTextColor  ( const QColor & color ){ p_gridTextColor  = color;       this->update(); }
+   void  setGridWidth      ( int            width ){ p_gridWidth      = width;       this->update(); }
+   void  setEllipses       ( int               no ){ p_ellipses       = no;          this->update(); }
+   void  setCrosses        ( int               no ){ p_crosses        = no;          this->update(); }
+   void  setTextMargin     ( int           margin ){ p_textMargin     = margin;      this->update(); }
+   void  setBlinkIntervall ( int        intervall ){ p_blinkIntervall = intervall;   this->update(); }
+   void  setWithGridLabels ( int       withLabels ){ p_withGridLabels = withLabels;  this->update(); }
+   void  setAntialiased    ( int      antialiased ){ p_antialiased    = antialiased; this->update(); }
 
 
-      float    marginScale       ( void ) const { return p_marginScale;    }
-      float    satelliteScale    ( void ) const { return p_satScale;       }
-      float    fontScale         ( void ) const { return p_fontScale;      }
-const QColor & gridColor         ( void ) const { return p_gridColor;      }
-const QColor & gridTextColor     ( void ) const { return p_gridTextColor;  }
-      int      gridWidth         ( void ) const { return p_gridWidth;      }
-      int      ellipses          ( void ) const { return p_ellipses;       }
-      int      crosses           ( void ) const { return p_crosses;        }
-      int      textMargin        ( void ) const { return p_textMargin;     }
-      int      blinkIntervall    ( void ) const { return p_blinkIntervall; }
-      int      withGridLabels    ( void ) const { return p_withGridLabels; }
-      int      antialiased       ( void ) const { return p_antialiased;    }
-      
-
-      bool     satIsBlinking     ( int id );
-      QColor   satInnerColor     ( int id );
-      QColor   satOuterColor     ( int id );
-      QColor   satFontColor      ( int id );
-      bool     satState1         ( int id );
-      bool     satState2         ( int id );
-      bool     satState3         ( int id );
-      QString  satLabel          ( int id );
-      float    satAzimuth        ( int id );
-      float    satElevation      ( int id );
+   float          marginScale       ( void ) const { return p_marginScale;    }
+   float          satelliteScale    ( void ) const { return p_satScale;       }
+   float          fontScale         ( void ) const { return p_fontScale;      }
+   const QColor & gridColor         ( void ) const { return p_gridColor;      }
+   const QColor & gridTextColor     ( void ) const { return p_gridTextColor;  }
+   int            gridWidth         ( void ) const { return p_gridWidth;      }
+   int            ellipses          ( void ) const { return p_ellipses;       }
+   int            crosses           ( void ) const { return p_crosses;        }
+   int            textMargin        ( void ) const { return p_textMargin;     }
+   int            blinkIntervall    ( void ) const { return p_blinkIntervall; }
+   int            withGridLabels    ( void ) const { return p_withGridLabels; }
+   int            antialiased       ( void ) const { return p_antialiased;    }
 
 
- public slots:
+   bool     satIsBlinking     ( int id );
+   QColor   satInnerColor     ( int id );
+   QColor   satOuterColor     ( int id );
+   QColor   satFontColor      ( int id );
+   bool     satState1         ( int id );
+   bool     satState2         ( int id );
+   bool     satState3         ( int id );
+   QString  satLabel          ( int id );
+   float    satAzimuth        ( int id );
+   float    satElevation      ( int id );
 
-      void addSatellite(  int id,
-                          float     az,
-                          float     el,
-                          const QString & label,
-                          const QColor  & outerColor,
-                          const QColor  & innerColor,
-                          const QColor  & fontColor,
-                          bool  state1   = true,
-                          bool  state2   = true,
-                          bool  state3   = true,
-                          bool  blinking = true);
 
-      void removeSatellite( int id );
+public slots:
 
-      bool isSatExists( int id );
+   void addSatellite( int   id,
+                      float az,
+                      float el,
+                      const QString & label,
+                      const QColor  & outerColor,
+                      const QColor  & innerColor,
+                      const QColor  & fontColor,
+                      bool  state1   = true,
+                      bool  state2   = true,
+                      bool  state3   = true,
+                      bool  blinking = true);
 
-      void     setSatBlinking    ( int id, bool  state            );
-      void     setSatInnerColor  ( int id, const QColor & c       );
-      void     setSatOuterColor  ( int id, const QColor & c       );
-      void     setSatFontColor   ( int id, const QColor & c       );
-      void     setSatState1      ( int id, bool  state            );
-      void     setSatState2      ( int id, bool  state            );
-      void     setSatState3      ( int id, bool  state            );
-      void     setSatLabel       ( int id, const QString & label  );
-      void     setSatAzimuth     ( int id, float az               );
-      void     setSatElevation   ( int id, float el               );
+   void removeSatellite( int id );
+
+   bool isSatExists( int id );
+
+   void setSatBlinking    ( int id, bool  state            );
+   void setSatInnerColor  ( int id, const QColor & c       );
+   void setSatOuterColor  ( int id, const QColor & c       );
+   void setSatFontColor   ( int id, const QColor & c       );
+   void setSatState1      ( int id, bool  state            );
+   void setSatState2      ( int id, bool  state            );
+   void setSatState3      ( int id, bool  state            );
+   void setSatLabel       ( int id, const QString & label  );
+   void setSatAzimuth     ( int id, float az               );
+   void setSatElevation   ( int id, float el               );
 
 
  protected:
 #ifndef SKYPLOT_QML_SUPPORT
-      void paintEvent(QPaintEvent *event);
+   void paintEvent(QPaintEvent *event);
 #else
-      void paint(QPainter *painter);
+   void paint(QPainter *painter);
 #endif
 
- private:
+private:
 
 
-      int       noBlinkingSats;
-      bool      blink;
-      QTimer    blinkTimer;
-      
-
-      float     p_marginScale;
-      float     p_satScale;
-      float     p_fontScale;
-      QColor    p_gridColor;
-      QColor    p_gridTextColor;
-      int       p_gridWidth;
-      int       p_ellipses;
-      int       p_crosses;
-      int       p_textMargin;
-      int       p_blinkIntervall;
-      bool      p_withGridLabels;
-      bool      p_antialiased;
-   
-      typedef struct _Satellite
-      {
-            QString  label;
-            QColor   innerColor;
-            QColor   outerColor;
-            QColor   fontColor;
-            float    az;
-            float    el;
-            bool     state1;
-            bool     state2;
-            bool     state3;
-            bool     blinking;
-      }Satellite;
+   int       noBlinkingSats;
+   bool      blink;
+   QTimer    blinkTimer;
 
 
-      QMap< int, Satellite > satellites;
-      typedef QMap< int, SkyplotWidget::Satellite >::const_iterator  I_satellite;
+   float     p_marginScale;
+   float     p_satScale;
+   float     p_fontScale;
+   QColor    p_gridColor;
+   QColor    p_gridTextColor;
+   int       p_gridWidth;
+   int       p_ellipses;
+   int       p_crosses;
+   int       p_textMargin;
+   int       p_blinkIntervall;
+   bool      p_withGridLabels;
+   bool      p_antialiased;
+
+   typedef struct _Satellite
+   {
+      QString  label;
+      QColor   innerColor;
+      QColor   outerColor;
+      QColor   fontColor;
+      float    az;
+      float    el;
+      bool     state1;
+      bool     state2;
+      bool     state3;
+      bool     blinking;
+   } Satellite;
 
 
- private slots:
+   QMap< int, Satellite > satellites;
+   typedef QMap< int, SkyplotWidget::Satellite >::const_iterator  I_satellite;
+
+
+private slots:
    void change_blink( void );
-
-
  };
 
  #endif
+
+// vim: filetype=cpp et ts=3 sw=3 sts=3
+

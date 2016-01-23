@@ -1,5 +1,5 @@
 // SkyplotWidget
-// Copyright (C) 2011-2014 Christian Haettich feddischson[at]gmx.com
+// Copyright (C) 2011-2016 Christian Haettich feddischson[at]gmx.com
 //
 // This library is free software; you can redistribute it and/or
 // modify it under the terms of the GNU Lesser General Public
@@ -14,38 +14,35 @@
 // You should have received a copy of the GNU Lesser General Public
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
-
-
 #include <QGuiApplication>
 #include <QtGui>
-#include "SkyplotWidget.h"
 #include <stdlib.h>
 #include <QDebug>
 #include <QtMath>
 
-
+#include "SkyplotWidget.h"
 
 #ifndef SKYPLOT_QML_SUPPORT
 SkyplotWidget::SkyplotWidget(QWidget *parent)
-    : QWidget(parent)
+   : QWidget(parent)
 #else
 SkyplotWidget::SkyplotWidget(QQuickPaintedItem *parent)
-    : QQuickPaintedItem(parent)
+   : QQuickPaintedItem(parent)
 #endif
-    , noBlinkingSats( 0 )
-    , blink( false )
-    , p_marginScale( 0.78 )
-    , p_satScale( 0.03 )
-    , p_fontScale( 0.02 )
-    , p_gridColor( QColor( 150, 150, 150, 255 ) )
-    , p_gridTextColor( QColor( 0, 0, 0, 255 ) )
-    , p_gridWidth( 3 )
-    , p_ellipses( 3 )
-    , p_crosses( 3 )
-    , p_textMargin( 10 )
-    , p_blinkIntervall( 500 )
-    , p_withGridLabels( true )
-    , p_antialiased( true )
+   , noBlinkingSats( 0 )
+   , blink( false )
+   , p_marginScale( 0.78 )
+   , p_satScale( 0.03 )
+   , p_fontScale( 0.02 )
+   , p_gridColor( QColor( 150, 150, 150, 255 ) )
+   , p_gridTextColor( QColor( 0, 0, 0, 255 ) )
+   , p_gridWidth( 3 )
+   , p_ellipses( 3 )
+   , p_crosses( 3 )
+   , p_textMargin( 10 )
+   , p_blinkIntervall( 500 )
+   , p_withGridLabels( true )
+   , p_antialiased( true )
 {
 
 #ifndef SKYPLOT_QML_SUPPORT
@@ -56,16 +53,11 @@ SkyplotWidget::SkyplotWidget(QQuickPaintedItem *parent)
    connect( &blinkTimer, SIGNAL( timeout() ), this, SLOT( change_blink() ) );
 }
 
-
-
 void SkyplotWidget::change_blink( void )
 {
    blink = !blink;
    this->update();
 }
-
-
-
 
 #ifndef SKYPLOT_QML_SUPPORT
 void SkyplotWidget::paintEvent(QPaintEvent *)
@@ -95,13 +87,15 @@ void SkyplotWidget::paint(QPainter *painter)
    if( availableHeight > availableWidth )
    {
       size = widgetSize.width() * p_marginScale;
-      topMargin   = ( widgetSize.width() - widgetSize.width() * p_marginScale + widgetSize.height() - widgetSize.width() ) / 2;
+      topMargin   = ( widgetSize.width() - widgetSize.width() * p_marginScale + 
+            widgetSize.height() - widgetSize.width() ) / 2;
       leftMargin  = ( widgetSize.width() - widgetSize.width() * p_marginScale ) / 2;
    }
    else
    {
       size = widgetSize.height() * p_marginScale;
-      leftMargin = ( widgetSize.height() - widgetSize.height() * p_marginScale + widgetSize.width() - widgetSize.height()) / 2;
+      leftMargin = ( widgetSize.height() - widgetSize.height() * p_marginScale + 
+            widgetSize.width() - widgetSize.height()) / 2;
       topMargin  = ( widgetSize.height() - widgetSize.height() * p_marginScale ) / 2;
    }
    satelliteSize = size * p_satScale;
@@ -133,7 +127,6 @@ void SkyplotWidget::paint(QPainter *painter)
       float angle = i * 90 / p_crosses;
       line1.setP1( QPoint( size/2, size/2 ) );
       line1.setLength( size/2 );
-
 
       QRectF textRect( 0, 0, 4 * fontSize, fontSize + 2 );
 
@@ -201,12 +194,8 @@ void SkyplotWidget::paint(QPainter *painter)
 
    }
 
-
    QBrush innerBrush = QBrush( Qt::SolidPattern );
    QBrush outerBrush = QBrush( );
-
-
-
 
    for( I_satellite i= satellites.begin(); i != satellites.end(); i++ )
    {
@@ -233,7 +222,7 @@ void SkyplotWidget::paint(QPainter *painter)
          painter->setBrush( outerBrush );
          painter->setPen( QPen( i->outerColor, satelliteSize/4 ) );
          painter->drawEllipse( satPos, (int)satelliteSize, (int)satelliteSize );
-      
+
       }
 
       if( ( i->blinking && blink ) || !i->blinking )
@@ -249,18 +238,6 @@ void SkyplotWidget::paint(QPainter *painter)
    delete painter;
 #endif
 }
-
-
-
-
-
-
-
-
-
-
-
-
 
 void 
 SkyplotWidget::addSatellite(  int id, 
@@ -535,4 +512,5 @@ SkyplotWidget::setSatElevation( int id, float el )
    this->update();
 }
 
-
+// vim: filetype=cpp et ts=3 sw=3 sts=3
+//

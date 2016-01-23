@@ -2,9 +2,6 @@ import QtQuick 2.0
 import QtQuick.Controls 1.2
 import SkyplotWidget 0.1
 
-
-
-
 ApplicationWindow {
 
    property int idx: 0
@@ -14,8 +11,6 @@ ApplicationWindow {
     width: 640
     height: 480
     title: qsTr("SkyplotWidget Example")
-
-
 
     SkyplotWidget {
         anchors.fill:   parent
@@ -53,5 +48,4 @@ ApplicationWindow {
             }
         }
     }
-
 }
