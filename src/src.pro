@@ -6,7 +6,6 @@ OBJECTS_DIR       = tmp
 INCLUDEPATH       = ../include
 DEPENDPATH        = ../include ../src
 DESTDIR           = ../lib
-VERSION           = 1.0.1
 
 include(../SkyplotWidget.pri)
 

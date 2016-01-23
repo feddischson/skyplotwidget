@@ -41,7 +41,7 @@ class SKYPLOTWIDGET_EXPORT SkyplotWidget : public QQuickPaintedItem
 {
    Q_OBJECT
 
-   Q_CLASSINFO( "Version", "0.0.1" )
+   Q_CLASSINFO( "Version", _SKP_VERSION )
    Q_PROPERTY( float  marginScale       READ marginScale     WRITE setMarginScale    )
    Q_PROPERTY( float  satelliteScale    READ satelliteScale  WRITE setSatelliteScale )
    Q_PROPERTY( float  fontScale         READ fontScale       WRITE setFontScale      )
