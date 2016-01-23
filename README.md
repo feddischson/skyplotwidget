@@ -9,18 +9,26 @@ INSTALLATION:
 ===============
 
 
-   run
+Run the following
 
 ```
       qmake
       make
       make install
 ```
-   to build and install the widget.
+to build and install the widget.
 
-   To make the widget available for the designer, please copy
-   lib/libskyplotwidgetdesigner.so into your qt-designer's library directory.
-   Linux users may check the environment-variable `QT_PLUGIN_PATH`.
+To make the widget available for the designer, please copy
+lib/libskyplotwidgetdesigner.so into your qt-designer's library directory.
+Linux users may check the environment-variable `QT_PLUGIN_PATH`.
+
+To build the skyplot-widget with QML support, run the following:
+```
+      qmake DEFINES+=SKYPLOT_QML_SUPPORT
+      make
+      make install
+```
+A QML/QtQuick example can be found in `examples/main.qml` and `examples/main.cpp`.
 
 
 
