@@ -132,6 +132,24 @@ the ring is painted or not, is painted with alpha = 0.3 or/and blinks.
      void     setAntialiased    ( int      antialiased );
 ```
 
+Versions
+==============
+
+1.1.0
+-----
+ - Adds QML Support
+
+1.0.1
+------
+ - Placed code to a github repo
+ - First stable version which supports
+    - Adding and removing satellites
+    - Different satellite states
+    - Coloring (font, ring, satellite-background, widget-background)
+    - Different configurations and styles
+
+
+
 License
 ===============
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
