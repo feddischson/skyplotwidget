@@ -41,6 +41,13 @@ See https://github.com/feddischson/skyplotwidget/wiki
 
 Versions
 ==============
+2.0.0
+------
+ - Changes the interface
+   - Shorter method names
+   - Better handling of the state
+   - More const declarations for getter methods
+ - Requires c++11
 
 1.1.0
 -----
