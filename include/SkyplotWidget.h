@@ -112,15 +112,15 @@ public:
    int            withGridLabels    ( void ) const { return p_withGridLabels; }
    int            antialiased       ( void ) const { return p_antialiased;    }
 
-   QColor         innerColor     ( int id );
-   QColor         outerColor     ( int id );
-   QColor         fontColor      ( int id );
-   SatelliteState state          ( int id );
-   QString        label          ( int id );
-   float          azimuth        ( int id );
-   float          elevation      ( int id );
+   QColor         innerColor     ( int id ) const;
+   QColor         outerColor     ( int id ) const;
+   QColor         fontColor      ( int id ) const;
+   SatelliteState state          ( int id ) const;
+   QString        label          ( int id ) const;
+   float          azimuth        ( int id ) const;
+   float          elevation      ( int id ) const;
 
-   QList< int >  ids( void );
+   QList< int >  ids( void ) const;
 
 public slots:
 
@@ -135,7 +135,7 @@ public slots:
 
    void remove( int id );
 
-   bool contains( int id );
+   bool contains( int id ) const;
 
    void setInnerColor  ( int id, const QColor & c       );
    void setOuterColor  ( int id, const QColor & c       );

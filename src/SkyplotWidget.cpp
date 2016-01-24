@@ -256,7 +256,7 @@ SkyplotWidget::remove( int id )
 }
 
 
-bool SkyplotWidget::contains(int id)
+bool SkyplotWidget::contains( int id ) const
 {
     return satellites.contains( id );
 }
@@ -265,19 +265,19 @@ bool SkyplotWidget::contains(int id)
 
 
 QColor 
-SkyplotWidget::innerColor( int id )
+SkyplotWidget::innerColor( int id ) const
 {
    return satellites[ id ].innerColor;
 }
 
 QColor 
-SkyplotWidget::outerColor( int id )
+SkyplotWidget::outerColor( int id ) const
 {
    return satellites[ id ].outerColor;
 }
 
 QColor  
-SkyplotWidget::fontColor( int id )
+SkyplotWidget::fontColor( int id ) const
 {
    return satellites[ id ].fontColor;
 }
@@ -303,7 +303,7 @@ SkyplotWidget::setFontColor( int id, const QColor & c )
 
 
 SkyplotWidget::SatelliteState  
-SkyplotWidget::state( int id )
+SkyplotWidget::state( int id ) const
 {
    return satellites[ id ].state;
 }
@@ -317,7 +317,7 @@ SkyplotWidget::setState( int id, SatelliteState state )
 
 
 QString 
-SkyplotWidget::label( int id )
+SkyplotWidget::label( int id ) const
 {
    return satellites[ id ].label;
 }
@@ -331,13 +331,13 @@ SkyplotWidget::setLabel( int id, const QString & label )
 
 
 float 
-SkyplotWidget::azimuth( int id )
+SkyplotWidget::azimuth( int id ) const
 {
    return satellites[ id ].az;
 }
 
 float 
-SkyplotWidget::elevation( int id )
+SkyplotWidget::elevation( int id ) const
 {
    return satellites[ id ].el;
 }
@@ -356,7 +356,7 @@ SkyplotWidget::setElevation( int id, float el )
    this->update();
 }
 
-QList< int > SkyplotWidget::ids( void )
+QList< int > SkyplotWidget::ids( void ) const
 {
    return satellites.keys();
 }
