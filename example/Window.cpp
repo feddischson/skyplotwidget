@@ -13,49 +13,62 @@
 
    skyplotWidget = new SkyplotWidget;
 
-   skyplotWidget->addSatellite( 0,  0, 10, QString( "0" ), QColor(  50,  20, 255 ), QColor( 150, 50, 20 ), fontColor, false, true, true, false    );
-   skyplotWidget->addSatellite( 1, 10, 10, QString( "1" ), QColor(   0, 255, 255 ), QColor( 150, 50, 20 ), fontColor, true, false, true, true     );
-  
-   skyplotWidget->addSatellite( 2,  0, 30, QString(  "12" ), QColor(  50,  20, 255 ), QColor( 150, 50, 20 ), fontColor, false, true, false, true  );
-   skyplotWidget->addSatellite( 3, 10, 30, QString(  "13" ), QColor(   0, 255, 255 ), QColor( 150, 50, 20 ), fontColor, true, false, false, false );
-   
-   
-   skyplotWidget->addSatellite( 4, 120, 20, QString( "1" ), QColor(   0, 255, 0 ), QColor(   0,  50, 255 ), fontColor, true, true, true, false );
-   skyplotWidget->addSatellite( 5, 195, 20, QString( "3" ),    QColor( 255,   0, 0 ), QColor( 150, 150,   0 ), fontColor, true, true, true, false );
-   skyplotWidget->addSatellite( 6, 290, 60, QString( "6" ),    QColor(   0,   0, 0 ), QColor( 255,  50,   0 ), fontColor, true, true, true, false );
 
+   skyplotWidget->insert( 0,  0, 10,  QString( "0" ), Qt::red, Qt::blue, fontColor, 
+      SkyplotWidget::SatelliteState::Visible 
+         );
+   skyplotWidget->insert( 1, 10, 10,  QString( "1" ), Qt::red, Qt::blue, fontColor,
+      SkyplotWidget::SatelliteState::HalfVisible
+         );
 
+   skyplotWidget->insert( 2,  40, 15,  QString( "2" ), Qt::red, Qt::yellow, fontColor, 
+      SkyplotWidget::SatelliteState::Visible  |
+      SkyplotWidget::SatelliteState::Marked 
 
+         );
+   skyplotWidget->insert( 3, 80, 15,  QString( "3" ), Qt::red, Qt::yellow, fontColor,
+      SkyplotWidget::SatelliteState::HalfVisible |
+      SkyplotWidget::SatelliteState::Marked 
+         );
 
+   skyplotWidget->insert( 4,  120, 15,  QString( "4" ), Qt::red, Qt::white, fontColor, 
+      SkyplotWidget::SatelliteState::Visible  |
+      SkyplotWidget::SatelliteState::Marked   |
+      SkyplotWidget::SatelliteState::Flashing
+         );
+   skyplotWidget->insert( 5, 150, 15,  QString( "5" ), Qt::red, Qt::white, fontColor,
+      SkyplotWidget::SatelliteState::HalfVisible |
+      SkyplotWidget::SatelliteState::Marked      |
+      SkyplotWidget::SatelliteState::Flashing
+         );
 
 
    skyplotWidget->setGridColor( QColor( 0, 255, 0 ) );
    skyplotWidget->setGridWidth( 1.5 );
-   skyplotWidget->setCrosses( 6 );
+   skyplotWidget->setCrosses( 2 );
    skyplotWidget->setEllipses( 6 );
    skyplotWidget->setSatelliteScale( 0.02 );
 
-
    for( int i=50; i <= 70; i ++ ) 
    {
-      skyplotWidget->addSatellite( i, 0, 0, QString(  "0" ), QColor(   0, 0, 0 ), QColor( 0, 0, 0 ), fontColor, true, false, false, false );
-      skyplotWidget->setSatBlinking    ( i, false );
-      skyplotWidget->setSatInnerColor  ( i, QColor( 255, 255, 255 ) );
-      skyplotWidget->setSatOuterColor  ( i, QColor(   0, 255, 255 ) );
-      skyplotWidget->setSatFontColor   ( i, QColor( 255,   0, 0   ) );
-      skyplotWidget->setSatState1      ( i, true );
-      skyplotWidget->setSatState2      ( i, true );
-      skyplotWidget->setSatState3      ( i, true );
+      skyplotWidget->insert( i, 0, 0, QString(  "0"+QString::number(i) ), Qt::magenta, Qt::white, fontColor, 
+            SkyplotWidget::SatelliteState::Visible );
+      skyplotWidget->setSatInnerColor  ( i, Qt::white );
+      skyplotWidget->setSatOuterColor  ( i, Qt::blue );
+      skyplotWidget->setSatFontColor   ( i, Qt::red );
       skyplotWidget->setSatLabel       ( i, QString( "%1" ).arg(i)        );
+      skyplotWidget->setState( i,
+            SkyplotWidget::SatelliteState::Visible |
+            SkyplotWidget::SatelliteState::Marked );
+
       skyplotWidget->setSatAzimuth     ( i, (i*30)%360  );
       skyplotWidget->setSatElevation   ( i, (i*5)%90  );
    }
-
    layout->addWidget(skyplotWidget, 0, 0 );
 
 
    setLayout(layout);
- 
+
    setWindowTitle(tr("Skyplot examples"));
  }
 

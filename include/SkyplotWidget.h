@@ -51,12 +51,20 @@ class SKYPLOTWIDGET_EXPORT SkyplotWidget : public QQuickPaintedItem
    Q_PROPERTY( int    ellipses          READ ellipses        WRITE setEllipses       )
    Q_PROPERTY( int    crosses           READ crosses         WRITE setCrosses        )
    Q_PROPERTY( int    textMargin        READ textMargin      WRITE setTextMargin     )
-   Q_PROPERTY( int    blinkIntervall    READ blinkIntervall  WRITE setBlinkIntervall )
+   Q_PROPERTY( int    flashIntervall    READ flashIntervall  WRITE setFlashIntervall )
    Q_PROPERTY( bool   withGridLabels    READ withGridLabels  WRITE setWithGridLabels )
    Q_PROPERTY( bool   antialiased       READ antialiased     WRITE setAntialiased    )
 
 
 public:
+   enum SatelliteState : quint8 { 
+      Invisible=0x0,
+      Visible=0x1,
+      HalfVisible=0x2,
+      Marked=0x4,
+      Flashing = 0x08 };
+
+
 #ifndef SKYPLOT_QML_SUPPORT
    SkyplotWidget(QWidget *parent = 0);
 #else
@@ -76,7 +84,7 @@ public:
    void  setEllipses       ( int               no ){ p_ellipses       = no;          this->update(); }
    void  setCrosses        ( int               no ){ p_crosses        = no;          this->update(); }
    void  setTextMargin     ( int           margin ){ p_textMargin     = margin;      this->update(); }
-   void  setBlinkIntervall ( int        intervall ){ p_blinkIntervall = intervall;   this->update(); }
+   void  setFlashIntervall ( int        intervall ){ p_flashIntervall = intervall;   this->update(); }
    void  setWithGridLabels ( int       withLabels ){ p_withGridLabels = withLabels;  this->update(); }
    void  setAntialiased    ( int      antialiased ){ p_antialiased    = antialiased; this->update(); }
 
@@ -90,18 +98,16 @@ public:
    int            ellipses          ( void ) const { return p_ellipses;       }
    int            crosses           ( void ) const { return p_crosses;        }
    int            textMargin        ( void ) const { return p_textMargin;     }
-   int            blinkIntervall    ( void ) const { return p_blinkIntervall; }
+   int            flashIntervall    ( void ) const { return p_flashIntervall; }
    int            withGridLabels    ( void ) const { return p_withGridLabels; }
    int            antialiased       ( void ) const { return p_antialiased;    }
 
-
-   bool     satIsBlinking     ( int id );
+//  bool     satIsBlinking     ( int id );
    QColor   satInnerColor     ( int id );
    QColor   satOuterColor     ( int id );
    QColor   satFontColor      ( int id );
-   bool     satState1         ( int id );
-   bool     satState2         ( int id );
-   bool     satState3         ( int id );
+   SatelliteState state    ( int id );
+
    QString  satLabel          ( int id );
    float    satAzimuth        ( int id );
    float    satElevation      ( int id );
@@ -109,29 +115,25 @@ public:
 
 public slots:
 
-   void addSatellite( int   id,
-                      float az,
-                      float el,
-                      const QString & label,
-                      const QColor  & outerColor,
-                      const QColor  & innerColor,
-                      const QColor  & fontColor,
-                      bool  state1   = true,
-                      bool  state2   = true,
-                      bool  state3   = true,
-                      bool  blinking = true);
+   void insert( int   id,
+                float az,
+                float el,
+                const QString & label,
+                const QColor  & outerColor,
+                const QColor  & innerColor,
+                const QColor  & fontColor,
+                SatelliteState  state1 = SatelliteState::Visible );
+//                bool  blinking = true );
 
    void removeSatellite( int id );
 
    bool isSatExists( int id );
 
-   void setSatBlinking    ( int id, bool  state            );
+//   void setSatBlinking    ( int id, bool  state            );
    void setSatInnerColor  ( int id, const QColor & c       );
    void setSatOuterColor  ( int id, const QColor & c       );
    void setSatFontColor   ( int id, const QColor & c       );
-   void setSatState1      ( int id, bool  state            );
-   void setSatState2      ( int id, bool  state            );
-   void setSatState3      ( int id, bool  state            );
+   void setState          ( int id, SatelliteState state   );
    void setSatLabel       ( int id, const QString & label  );
    void setSatAzimuth     ( int id, float az               );
    void setSatElevation   ( int id, float el               );
@@ -147,9 +149,8 @@ public slots:
 private:
 
 
-   int       noBlinkingSats;
-   bool      blink;
-   QTimer    blinkTimer;
+   bool      flash;
+   QTimer    flashTimer;
 
 
    float     p_marginScale;
@@ -161,7 +162,7 @@ private:
    int       p_ellipses;
    int       p_crosses;
    int       p_textMargin;
-   int       p_blinkIntervall;
+   int       p_flashIntervall;
    bool      p_withGridLabels;
    bool      p_antialiased;
 
@@ -173,22 +174,24 @@ private:
       QColor   fontColor;
       float    az;
       float    el;
-      bool     state1;
-      bool     state2;
-      bool     state3;
-      bool     blinking;
+      SatelliteState  state;
+//      bool     blinking;
    } Satellite;
 
 
-   QMap< int, Satellite > satellites;
-   typedef QMap< int, SkyplotWidget::Satellite >::const_iterator  I_satellite;
+   QHash< int, Satellite > satellites;
 
 
 private slots:
-   void change_blink( void );
- };
+   void change_flash( void );
+};
 
- #endif
+SkyplotWidget::SatelliteState operator| ( 
+      SkyplotWidget::SatelliteState lhs, 
+      SkyplotWidget::SatelliteState rhs );
+
+
+#endif
 
 // vim: filetype=cpp et ts=3 sw=3 sts=3
 

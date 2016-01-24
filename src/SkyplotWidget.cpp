@@ -29,8 +29,7 @@ SkyplotWidget::SkyplotWidget(QWidget *parent)
 SkyplotWidget::SkyplotWidget(QQuickPaintedItem *parent)
    : QQuickPaintedItem(parent)
 #endif
-   , noBlinkingSats( 0 )
-   , blink( false )
+   , flash( false )
    , p_marginScale( 0.78 )
    , p_satScale( 0.03 )
    , p_fontScale( 0.02 )
@@ -40,7 +39,7 @@ SkyplotWidget::SkyplotWidget(QQuickPaintedItem *parent)
    , p_ellipses( 3 )
    , p_crosses( 3 )
    , p_textMargin( 10 )
-   , p_blinkIntervall( 500 )
+   , p_flashIntervall( 500 )
    , p_withGridLabels( true )
    , p_antialiased( true )
 {
@@ -49,13 +48,14 @@ SkyplotWidget::SkyplotWidget(QQuickPaintedItem *parent)
    setBackgroundRole(QPalette::Base);
    setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
 #endif
-   blinkTimer.setInterval( p_blinkIntervall );
-   connect( &blinkTimer, SIGNAL( timeout() ), this, SLOT( change_blink() ) );
+   flashTimer.setInterval( p_flashIntervall );
+   connect( &flashTimer, SIGNAL( timeout() ), this, SLOT( change_flash() ) );
+   flashTimer.start( p_flashIntervall );
 }
 
-void SkyplotWidget::change_blink( void )
+void SkyplotWidget::change_flash( void )
 {
-   blink = !blink;
+   flash = !flash;
    this->update();
 }
 
@@ -88,15 +88,15 @@ void SkyplotWidget::paint(QPainter *painter)
    {
       size = widgetSize.width() * p_marginScale;
       topMargin   = ( widgetSize.width() - widgetSize.width() * p_marginScale + 
-            widgetSize.height() - widgetSize.width() ) / 2;
-      leftMargin  = ( widgetSize.width() - widgetSize.width() * p_marginScale ) / 2;
+            widgetSize.height() - widgetSize.width() ) / 2.0;
+      leftMargin  = ( widgetSize.width() - widgetSize.width() * p_marginScale ) / 2.0;
    }
    else
    {
       size = widgetSize.height() * p_marginScale;
       leftMargin = ( widgetSize.height() - widgetSize.height() * p_marginScale + 
-            widgetSize.width() - widgetSize.height()) / 2;
-      topMargin  = ( widgetSize.height() - widgetSize.height() * p_marginScale ) / 2;
+            widgetSize.width() - widgetSize.height()) / 2.0;
+      topMargin  = ( widgetSize.height() - widgetSize.height() * p_marginScale ) / 2.0;
    }
    satelliteSize = size * p_satScale;
 
@@ -105,133 +105,119 @@ void SkyplotWidget::paint(QPainter *painter)
    fontSize = size * p_fontScale;
 
 
-   painter->setFont( QFont( "Arial", (int)fontSize ) );
+   painter->setFont( 
+         QFont( "Arial", 
+         static_cast< int >( fontSize ) ) );
+
+   // paint the circles
    for( int i=0; i < p_ellipses; i++ )
    {
-      float radius = size / 2 - i * ( size / (2  * p_ellipses )  );
+      float radius = size / 2.0 - i * ( size / ( 2.0  * p_ellipses )  );
       painter->setPen( QPen( p_gridColor, p_gridWidth ) );
-      painter->drawEllipse(  QPoint( size/2, size/2 ), (int)radius, (int)radius );
+      painter->drawEllipse(  
+            QPoint( size/2.0, size/2.0 ), 
+            static_cast< int >( radius ), 
+            static_cast< int >( radius ) );
       if( p_withGridLabels )
       {
          painter->setPen( QPen( p_gridTextColor, p_gridWidth ) );
-         painter->drawText( QPoint( size/2 + p_textMargin, size/2 - ( radius + p_textMargin ) ),
-                           QString("%1").arg( i * (90 / p_ellipses ) ) );
+         painter->drawText( QPoint( size/2.0 + p_textMargin, size/2.0 - ( radius + p_textMargin ) ),
+                            QString("%1").arg( i * (90 / p_ellipses ) ) );
       }
    }
 
-
+   // paint the crosses
    for( int i=0; i < p_crosses; i ++ )
    {
       QLineF line1;
       QLineF line2;
-      float angle = i * 90 / p_crosses;
-      line1.setP1( QPoint( size/2, size/2 ) );
-      line1.setLength( size/2 );
+      float angle = static_cast<float>(i) * 90.0 / static_cast<float>(p_crosses);
+      line1.setP1( QPoint( size/2.0, size/2.0 ) );
+      line1.setLength( size/2.0 );
 
-      QRectF textRect( 0, 0, 4 * fontSize, fontSize + 2 );
+      QRectF textRect( 0, 0, 4.0 * fontSize, fontSize + 2.0 );
 
-
-      line1.setAngle( angle + 90 );
-      painter->setPen( QPen( p_gridColor, p_gridWidth ) );
-      painter->drawLine( line1 );
-      if( p_withGridLabels  )
+      for( int c = 0; c < 4; c++ )
       {
-         painter->setPen( QPen( p_gridTextColor, p_gridWidth ) );
-         line2 = QLineF( line1 );
-         line2.setLength( size/2 + 2 * fontSize );
-         textRect.moveCenter( line2.p2() );
-         if( i > 0 )
-            painter->drawText( textRect, Qt::AlignCenter, QString( "%1").arg( 360 - angle ) );
-         else
-            painter->drawText( textRect, Qt::AlignCenter, QString( "N") );
+         line1.setAngle( angle + c*90.0 + 90.0 );
+         painter->setPen( QPen( p_gridColor, p_gridWidth ) );
+         painter->drawLine( line1 );
+         if( p_withGridLabels  )
+         {
+            painter->setPen( QPen( p_gridTextColor, p_gridWidth ) );
+            line2 = QLineF( line1 );
+            line2.setLength( size/2.0 + 2.0 * fontSize );
+            textRect.moveCenter( line2.p2() );
+            if( i > 0 )
+               painter->drawText( textRect, Qt::AlignCenter, QString( "%1").arg( 360.0 - (c*90.0 ) - angle ) );
+            else
+               painter->drawText( textRect, Qt::AlignCenter, QString( "N") );
+         }
       }
-
-      line1 = line1.normalVector();
-      painter->setPen( QPen( p_gridColor, p_gridWidth ) );
-      painter->drawLine( line1 );
-      if( p_withGridLabels )
-      {
-         painter->setPen( QPen( p_gridTextColor, p_gridWidth ) );
-         line2 = QLineF( line1 );
-         line2.setLength( size/2 + 2 * fontSize );
-         textRect.moveCenter( line2.p2() );
-         if( i > 0 )
-            painter->drawText( textRect, Qt::AlignCenter, QString( "%1").arg( 360 - 90 - angle ) );
-         else
-            painter->drawText( textRect, Qt::AlignCenter, QString( "W") );
-
-      }
-
-      line1 = line1.normalVector();
-      painter->setPen( QPen( p_gridColor, p_gridWidth ) );
-      painter->drawLine( line1 );
-      if( p_withGridLabels )
-      {
-         painter->setPen( QPen( p_gridTextColor, p_gridWidth ) );
-         line2 = QLineF( line1 );
-         line2.setLength( size/2 + 2 * fontSize );
-         textRect.moveCenter( line2.p2() );
-         if( i > 0 )
-            painter->drawText( textRect, Qt::AlignCenter, QString( "%1").arg( 360 - 180 - angle ) );
-         else
-            painter->drawText( textRect, Qt::AlignCenter, QString( "S") );
-      }
-
-      line1 = line1.normalVector();
-      painter->setPen( QPen( p_gridColor, p_gridWidth ) );
-      painter->drawLine( line1 );
-      if( p_withGridLabels )
-      {
-         painter->setPen( QPen( p_gridTextColor, p_gridWidth ) );
-         line2 = QLineF( line1 );
-         line2.setLength( size/2 + 2 * fontSize );
-         textRect.moveCenter( line2.p2() );
-         if( i > 0 )
-            painter->drawText( textRect, Qt::AlignCenter, QString( "%1").arg( 360 - 270 - angle ) );
-         else
-            painter->drawText( textRect, Qt::AlignCenter, QString( "E") );
-      }
-
    }
 
    QBrush innerBrush = QBrush( Qt::SolidPattern );
    QBrush outerBrush = QBrush( );
 
-   for( I_satellite i= satellites.begin(); i != satellites.end(); i++ )
+   foreach( auto s, satellites )
    {
-      float el_s     = ( 90 - i->el ) * size / ( 2 * 90.0 );
-      QRectF labelRect( 0, 0, i->label.length() * satelliteSize, satelliteSize+2 );
 
-      QPoint satPos( size/2   + sin( i->az * 2 * MY_PI / 360 ) * el_s, 
-                     size/2   - cos( i->az * 2 * MY_PI / 360 ) * el_s ); 
+      // skip invisible satellites
+      if(     s.state & SatelliteState::Invisible       ||  // the invisible flag is set
+
+         ( !( s.state & SatelliteState::Visible ) &         // neither visible nor half-visible
+           !( s.state & SatelliteState::HalfVisible ) ) || 
+
+         (  s.state & SatelliteState::Flashing && flash )    // flashing flag is set and flash is active
+         ) 
+         continue;
 
 
-      if(      ( i->state1 && i->blinking && blink )
-            || ( i->state1 && !i->blinking         ) )
+      float el_s = ( 90 - s.el ) * size / ( 2 * 90.0 );
+      QRectF labelRect( 0, 0, s.label.length() * satelliteSize, satelliteSize+2 );
+
+      QPoint satPos( size/2   + sin( s.az * 2 * MY_PI / 360.0 ) * el_s, 
+                     size/2   - cos( s.az * 2 * MY_PI / 360.0 ) * el_s ); 
+
+      // define the color's alpha value (0.3 or 1.0)
+      QColor innerColor = s.innerColor;
+      QColor outerColor = s.outerColor;
+      QColor fontColor  = s.fontColor;
+      if( s.state & SatelliteState::Visible )
       {
-         innerBrush.setColor( i->innerColor );
-         painter->setBrush( innerBrush );
+         innerColor.setAlphaF( 1.0 );
+         outerColor.setAlphaF( 1.0 );
+         fontColor.setAlphaF( 1.0 );
+      }
+      else
+      {
+         innerColor.setAlphaF( 0.3 );
+         outerColor.setAlphaF( 0.3 );
+         fontColor.setAlphaF( 0.3 );
+      }
+
+      // paint the inner circle
+      innerBrush.setColor( innerColor );
+      painter->setBrush( innerBrush );
+      if( s.state & SatelliteState::Marked )
+         painter->setPen( QPen( outerColor, satelliteSize/4 ) );
+      else
          painter->setPen( QPen( p_gridColor, 0 ) );
-         painter->drawEllipse( satPos, (int)satelliteSize, (int)satelliteSize );
-      }
+      painter->drawEllipse( 
+            satPos, 
+            static_cast< int >( satelliteSize ), 
+            static_cast< int >( satelliteSize ) );
 
 
-      if(      ( i->state2 && i->blinking && blink )
-            || ( i->state2 && !i->blinking         ) )
-      {
-         painter->setBrush( outerBrush );
-         painter->setPen( QPen( i->outerColor, satelliteSize/4 ) );
-         painter->drawEllipse( satPos, (int)satelliteSize, (int)satelliteSize );
+      // write the text
+      painter->setPen( QPen( fontColor, 2 ) );
+      painter->setFont( 
+            QFont( "Arial", 
+            static_cast< int >( satelliteSize ), 
+            QFont::Bold ) );
+      labelRect.moveCenter( satPos );
+      painter->drawText( labelRect, Qt::AlignCenter, s.label );
 
-      }
-
-      if( ( i->blinking && blink ) || !i->blinking )
-      {
-         painter->setPen( QPen( i->fontColor, 2 ) );
-         painter->setFont( QFont( "Arial", (int)satelliteSize, QFont::Bold ) );
-         labelRect.moveCenter( satPos );
-         painter->drawText( labelRect, Qt::AlignCenter, i->label );
-      }
    }
 
 #ifndef SKYPLOT_QML_SUPPORT
@@ -240,93 +226,27 @@ void SkyplotWidget::paint(QPainter *painter)
 }
 
 void 
-SkyplotWidget::addSatellite(  int id, 
-                              float az,
-                              float el,
-                              const QString & label, 
-                              const QColor & outerColor, 
-                              const QColor & innerColor,
-                              const QColor & fontColor,
-                              bool  state1,
-                              bool  state2,
-                              bool  state3,
-                              bool  blinking)
+SkyplotWidget::insert(  int id, 
+                        float az,
+                        float el,
+                        const QString & label, 
+                        const QColor & outerColor, 
+                        const QColor & innerColor,
+                        const QColor & fontColor,
+                        SatelliteState  state )
 {
    Satellite   sat;
    sat.label      = label;
    sat.az         = az;
    sat.el         = el;
-   sat.state1     = state1;
-   sat.state2     = state2;
-   sat.state3     = state3;
-   sat.blinking   = blinking;
+   sat.state      = state;
    sat.innerColor = innerColor; 
    sat.outerColor = outerColor;
    sat.fontColor  = fontColor;
 
-   if( state3 )
-   {
-      sat.innerColor.setAlphaF( 1.0 );
-      sat.outerColor.setAlphaF( 1.0 );
-      sat.fontColor.setAlphaF( 1.0 );
-   }
-   else
-   {
-      sat.innerColor.setAlphaF( 0.3 );
-      sat.outerColor.setAlphaF( 0.3 );
-      sat.fontColor.setAlphaF( 0.3 );
-   }
-
-   if( blinking )
-   {
-      if( noBlinkingSats == 0)
-      {
-         blinkTimer.start( p_blinkIntervall );
-      }
-      noBlinkingSats++;
-   }
-   else
-      this->update();
+   this->update();
 
    satellites.insert( id, sat );
-}
-
-void
-SkyplotWidget::setSatBlinking( int id, bool state )
-{
-   if( satellites.contains( id ) )
-   {
-
-      if( satellites[ id ].blinking && !state )
-      {
-         if( (--noBlinkingSats) == 0 )
-         {
-            blinkTimer.stop();
-         }
-         satellites[ id ].blinking = state;
-      }
-      else if( !satellites[ id ].blinking && state )
-      {
-         if( noBlinkingSats == 0)
-         {
-            blinkTimer.start( p_blinkIntervall );
-         }
-         noBlinkingSats++;
-         satellites[ id ].blinking = state;
-      }
-   }
-}
-
-
-bool 
-SkyplotWidget::satIsBlinking( int id )
-{
-   if( satellites.contains( id ) )
-   {
-      return satellites[ id ].blinking;
-   }
-   else
-      return false;
 }
 
 
@@ -335,13 +255,6 @@ SkyplotWidget::removeSatellite( int id )
 {
    if( satellites.contains( id ) )
    {
-      if( satellites[ id ].blinking )
-      {
-         if( (--noBlinkingSats) == 0 )
-         {
-            blinkTimer.stop();
-         }
-      }
       satellites.remove( id );
    }
 }
@@ -408,56 +321,20 @@ SkyplotWidget::setSatFontColor( int id, const QColor & c )
 }
 
 
-bool  
-SkyplotWidget::satState1( int id )
+SkyplotWidget::SatelliteState  
+SkyplotWidget::state( int id )
 {
-   if( satellites.contains( id ) )
-      return satellites[ id ].state1;
-   else
-      return false;
-}
-
-bool  
-SkyplotWidget::satState2( int id )
-{
-   if( satellites.contains( id ) )
-      return satellites[ id ].state2;
-   else
-      return false;
-}
-
-bool  
-SkyplotWidget::satState3( int id )
-{
-   if( satellites.contains( id ) )
-      return satellites[ id ].state3;
-   else
-      return false;
+   return satellites[ id ].state;
 }
 
 void  
-SkyplotWidget::setSatState1( int id, bool state)
+SkyplotWidget::setState( int id, SatelliteState state )
 {
    if( satellites.contains( id ) )
-      satellites[ id ].state1 = state;
+      satellites[ id ].state = state;
    this->update();
 }
 
-void  
-SkyplotWidget::setSatState2( int id, bool state)
-{
-   if( satellites.contains( id ) )
-      satellites[ id ].state2 = state;
-   this->update();
-}
-
-void  
-SkyplotWidget::setSatState3( int id, bool state)
-{
-   if( satellites.contains( id ) )
-      satellites[ id ].state3 = state;
-   this->update();
-}
 
 QString 
 SkyplotWidget::satLabel( int id )
@@ -511,6 +388,18 @@ SkyplotWidget::setSatElevation( int id, float el )
       satellites[ id ].el = el;
    this->update();
 }
+
+
+
+SkyplotWidget::SatelliteState operator| ( 
+      SkyplotWidget::SatelliteState lhs, 
+      SkyplotWidget::SatelliteState rhs )
+{
+   return static_cast< SkyplotWidget::SatelliteState >(
+         static_cast< quint8 >( lhs ) | static_cast< quint8 >( rhs ) 
+         );
+}
+
 
 // vim: filetype=cpp et ts=3 sw=3 sts=3
 //
