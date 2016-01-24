@@ -102,16 +102,15 @@ public:
    int            withGridLabels    ( void ) const { return p_withGridLabels; }
    int            antialiased       ( void ) const { return p_antialiased;    }
 
-//  bool     satIsBlinking     ( int id );
-   QColor   satInnerColor     ( int id );
-   QColor   satOuterColor     ( int id );
-   QColor   satFontColor      ( int id );
-   SatelliteState state    ( int id );
+   QColor         innerColor     ( int id );
+   QColor         outerColor     ( int id );
+   QColor         fontColor      ( int id );
+   SatelliteState state          ( int id );
+   QString        label          ( int id );
+   float          azimuth        ( int id );
+   float          elevation      ( int id );
 
-   QString  satLabel          ( int id );
-   float    satAzimuth        ( int id );
-   float    satElevation      ( int id );
-
+   QList< int >  ids( void );
 
 public slots:
 
@@ -123,20 +122,18 @@ public slots:
                 const QColor  & innerColor,
                 const QColor  & fontColor,
                 SatelliteState  state1 = SatelliteState::Visible );
-//                bool  blinking = true );
 
-   void removeSatellite( int id );
+   void remove( int id );
 
-   bool isSatExists( int id );
+   bool contains( int id );
 
-//   void setSatBlinking    ( int id, bool  state            );
-   void setSatInnerColor  ( int id, const QColor & c       );
-   void setSatOuterColor  ( int id, const QColor & c       );
-   void setSatFontColor   ( int id, const QColor & c       );
-   void setState          ( int id, SatelliteState state   );
-   void setSatLabel       ( int id, const QString & label  );
-   void setSatAzimuth     ( int id, float az               );
-   void setSatElevation   ( int id, float el               );
+   void setInnerColor  ( int id, const QColor & c       );
+   void setOuterColor  ( int id, const QColor & c       );
+   void setFontColor   ( int id, const QColor & c       );
+   void setState       ( int id, SatelliteState state   );
+   void setLabel       ( int id, const QString & label  );
+   void setAzimuth     ( int id, float az               );
+   void setElevation   ( int id, float el               );
 
 
  protected:
@@ -175,7 +172,6 @@ private:
       float    az;
       float    el;
       SatelliteState  state;
-//      bool     blinking;
    } Satellite;
 
 

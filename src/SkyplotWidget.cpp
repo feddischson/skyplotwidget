@@ -251,16 +251,13 @@ SkyplotWidget::insert(  int id,
 
 
 void 
-SkyplotWidget::removeSatellite( int id )
+SkyplotWidget::remove( int id )
 {
-   if( satellites.contains( id ) )
-   {
-      satellites.remove( id );
-   }
+   satellites.remove( id );
 }
 
 
-bool SkyplotWidget::isSatExists(int id)
+bool SkyplotWidget::contains(int id)
 {
     return satellites.contains( id );
 }
@@ -269,55 +266,40 @@ bool SkyplotWidget::isSatExists(int id)
 
 
 QColor 
-SkyplotWidget::satInnerColor( int id )
+SkyplotWidget::innerColor( int id )
 {
-   if( satellites.contains( id ) )
-      return satellites[ id ].innerColor;
-   else
-      return QColor( 0, 0, 0 );
+   return satellites[ id ].innerColor;
 }
 
 QColor 
-SkyplotWidget::satOuterColor( int id )
+SkyplotWidget::outerColor( int id )
 {
-   if( satellites.contains( id ) )
-      return satellites[ id ].outerColor;
-   else
-      return QColor( 0, 0, 0 );
+   return satellites[ id ].outerColor;
 }
 
 QColor  
-SkyplotWidget::satFontColor( int id )
+SkyplotWidget::fontColor( int id )
 {
-   if( satellites.contains( id ) )
-      return satellites[ id ].fontColor;
-   else
-      return QColor( 0, 0, 0 );
-
+   return satellites[ id ].fontColor;
 }
 
 void   
-SkyplotWidget::setSatInnerColor( int id, const QColor & c )
+SkyplotWidget::setInnerColor( int id, const QColor & c )
 {
-   if( satellites.contains( id ) )
-      satellites[ id ].innerColor = c;
+   satellites[ id ].innerColor = c;
    this->update();
 }
 
 void   
-SkyplotWidget::setSatOuterColor( int id, const QColor & c )
+SkyplotWidget::setOuterColor( int id, const QColor & c )
 {
-   if( satellites.contains( id ) )
-      satellites[ id ].outerColor = c;
-   this->update();
+   satellites[ id ].outerColor = c;
 }
 
 void    
-SkyplotWidget::setSatFontColor( int id, const QColor & c )
+SkyplotWidget::setFontColor( int id, const QColor & c )
 {
-   if( satellites.contains( id ) )
-      satellites[ id ].fontColor = c;
-   this->update();
+   satellites[ id ].fontColor = c;
 }
 
 
@@ -330,65 +312,55 @@ SkyplotWidget::state( int id )
 void  
 SkyplotWidget::setState( int id, SatelliteState state )
 {
-   if( satellites.contains( id ) )
-      satellites[ id ].state = state;
+   satellites[ id ].state = state;
    this->update();
 }
 
 
 QString 
-SkyplotWidget::satLabel( int id )
+SkyplotWidget::label( int id )
 {
-   if( satellites.contains( id ) )
-      return satellites[ id ].label;
-   else
-      return QString( "" );
+   return satellites[ id ].label;
 }
 
 void  
-SkyplotWidget::setSatLabel( int id, const QString & label )
+SkyplotWidget::setLabel( int id, const QString & label )
 {
-   if( satellites.contains( id ) )
-      satellites[ id ].label = label;
+   satellites[ id ].label = label;
    this->update();
 }
 
 
 float 
-SkyplotWidget::satAzimuth( int id )
+SkyplotWidget::azimuth( int id )
 {
-   if( satellites.contains( id ) )
-      return satellites[ id ].az;
-   else
-      return 0.0;
-
+   return satellites[ id ].az;
 }
 
 float 
-SkyplotWidget::satElevation( int id )
+SkyplotWidget::elevation( int id )
 {
-   if( satellites.contains( id ) )
-      return satellites[ id ].el;
-   else
-      return 0.0;
+   return satellites[ id ].el;
 }
 
 void  
-SkyplotWidget::setSatAzimuth( int id, float az )
+SkyplotWidget::setAzimuth( int id, float az )
 {
-   if( satellites.contains( id ) )
-      satellites[ id ].az = az;
+   satellites[ id ].az = az;
    this->update();
 }
 
 void  
-SkyplotWidget::setSatElevation( int id, float el )
+SkyplotWidget::setElevation( int id, float el )
 {
-   if( satellites.contains( id ) )
-      satellites[ id ].el = el;
+   satellites[ id ].el = el;
    this->update();
 }
 
+QList< int > SkyplotWidget::ids( void )
+{
+   return satellites.keys();
+}
 
 
 SkyplotWidget::SatelliteState operator| ( 

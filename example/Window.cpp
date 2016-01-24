@@ -51,21 +51,30 @@
 
    for( int i=50; i <= 70; i ++ ) 
    {
-      skyplotWidget->insert( i, 0, 0, QString(  "0"+QString::number(i) ), Qt::magenta, Qt::white, fontColor, 
+      skyplotWidget->insert( i, 0, 0, 
+            QString(  "0"+QString::number(i) ), 
+            Qt::magenta, 
+            Qt::white, 
+            fontColor, 
             SkyplotWidget::SatelliteState::Visible );
-      skyplotWidget->setSatInnerColor  ( i, Qt::white );
-      skyplotWidget->setSatOuterColor  ( i, Qt::blue );
-      skyplotWidget->setSatFontColor   ( i, Qt::red );
-      skyplotWidget->setSatLabel       ( i, QString( "%1" ).arg(i)        );
+      skyplotWidget->setInnerColor  ( i, Qt::white );
+      skyplotWidget->setOuterColor  ( i, Qt::blue );
+      skyplotWidget->setFontColor   ( i, Qt::red );
+      skyplotWidget->setLabel       ( i, QString( "%1" ).arg(i)        );
       skyplotWidget->setState( i,
             SkyplotWidget::SatelliteState::Visible |
             SkyplotWidget::SatelliteState::Marked );
 
-      skyplotWidget->setSatAzimuth     ( i, (i*30)%360  );
-      skyplotWidget->setSatElevation   ( i, (i*5)%90  );
+      skyplotWidget->setAzimuth     ( i, (i*30)%360  );
+      skyplotWidget->setElevation   ( i, (i*5)%90  );
    }
    layout->addWidget(skyplotWidget, 0, 0 );
 
+
+   for( auto id : skyplotWidget->ids() )
+   {
+      skyplotWidget->setState( id, SkyplotWidget::SatelliteState::HalfVisible );
+   }
 
    setLayout(layout);
 
