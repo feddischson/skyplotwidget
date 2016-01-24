@@ -2,7 +2,8 @@
 Introduction
 =============
 The Skyplot widget is a small QT library to visualize satellite skyplots.
-
+![screenshot-01](https://github.com/feddischson/skyplotwidget/blob/master/screenshots/screenshot01.jpeg)
+![screenshot-02](https://github.com/feddischson/skyplotwidget/blob/master/screenshots/screenshot02.jpeg)
 
 
 INSTALLATION:
