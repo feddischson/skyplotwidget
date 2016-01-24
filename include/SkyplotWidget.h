@@ -73,8 +73,8 @@ public:
 
 #ifdef SKYPLOT_QML_SUPPORT
    static void declareQml( ) {
-      qmlRegisterType<SkyplotWidget>( "SkyplotWidget", 2, 0, "SkyplotWidget" );
-      qmlRegisterType<SkyplotWidget>( "SatelliteState", 2, 0, "SatelliteState" );
+      qmlRegisterType<SkyplotWidget>( "SkyplotWidget",  _SKP_VERSION_MAJ, _SKP_VERSION_MIN, "SkyplotWidget"  );
+      qmlRegisterType<SkyplotWidget>( "SatelliteState", _SKP_VERSION_MAJ, _SKP_VERSION_MIN, "SatelliteState" );
    }
 #endif
 
