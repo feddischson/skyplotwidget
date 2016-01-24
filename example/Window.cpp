@@ -71,11 +71,6 @@
    layout->addWidget(skyplotWidget, 0, 0 );
 
 
-   for( auto id : skyplotWidget->ids() )
-   {
-      skyplotWidget->setState( id, SkyplotWidget::SatelliteState::HalfVisible );
-   }
-
    setLayout(layout);
 
    setWindowTitle(tr("Skyplot examples"));

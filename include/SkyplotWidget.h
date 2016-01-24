@@ -115,12 +115,12 @@ public:
 public slots:
 
    void insert( int   id,
-                float az,
-                float el,
-                const QString & label,
-                const QColor  & outerColor,
-                const QColor  & innerColor,
-                const QColor  & fontColor,
+                float az = 0,
+                float el = 90.0,
+                const QString & label      = QString(""),
+                const QColor  & outerColor = Qt::red,
+                const QColor  & innerColor = Qt::lightGray,
+                const QColor  & fontColor  = Qt::black,
                 SatelliteState  state1 = SatelliteState::Visible );
 
    void remove( int id );
