@@ -58,19 +58,19 @@ class SKYPLOTWIDGET_EXPORT SkyplotWidget : public QQuickPaintedItem
 
 public:
    enum SatelliteState : quint8 { 
-      Invisible=0x0,
-      Visible=0x1,
-      HalfVisible=0x2,
-      Marked=0x4,
-      Flashing = 0x08 };
+      Invisible   = 0x00,
+      Visible     = 0x01,
+      HalfVisible = 0x02,
+      Marked      = 0x04,
+      Flashing    = 0x08 };
 
 
 #ifndef SKYPLOT_QML_SUPPORT
-   SkyplotWidget(QWidget *parent = 0);
+   SkyplotWidget( QWidget *parent = 0 );
 #else
-   SkyplotWidget(QQuickPaintedItem *parent = 0);
-   static void declareQml() {
-      qmlRegisterType<SkyplotWidget>("SkyplotWidget", 0, 1, "SkyplotWidget");
+   SkyplotWidget( QQuickPaintedItem *parent = 0 );
+   static void declareQml( ) {
+      qmlRegisterType<SkyplotWidget>( "SkyplotWidget", 0, 1, "SkyplotWidget" );
    }
 #endif
 
@@ -121,7 +121,7 @@ public slots:
                 const QColor  & outerColor = Qt::red,
                 const QColor  & innerColor = Qt::lightGray,
                 const QColor  & fontColor  = Qt::black,
-                SatelliteState  state1 = SatelliteState::Visible );
+                SatelliteState  state      = SatelliteState::Visible );
 
    void remove( int id );
 
