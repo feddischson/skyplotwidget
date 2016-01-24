@@ -66,13 +66,22 @@ public:
 
 
 #ifndef SKYPLOT_QML_SUPPORT
-   SkyplotWidget( QWidget *parent = 0 );
+   explicit SkyplotWidget( QWidget *parent = nullptr );
 #else
-   SkyplotWidget( QQuickPaintedItem *parent = 0 );
+   SkyplotWidget( QQuickPaintedItem *parent = nullptr );
+#endif
+
+#ifdef SKYPLOT_QML_SUPPORT
    static void declareQml( ) {
       qmlRegisterType<SkyplotWidget>( "SkyplotWidget", 0, 1, "SkyplotWidget" );
    }
 #endif
+
+   SkyplotWidget(const SkyplotWidget & spw )             = delete;
+   SkyplotWidget& operator= (const SkyplotWidget & spw)  = delete;
+   SkyplotWidget( SkyplotWidget && rhs )                 = delete;
+   SkyplotWidget& operator=( SkyplotWidget && rhs )      = delete;
+   ~SkyplotWidget()                                      = default;
 
 
    void  setMarginScale    ( float          scale ){ p_marginScale    = scale;       this->update(); }

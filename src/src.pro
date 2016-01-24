@@ -1,6 +1,6 @@
 TARGET            = skyplotwidget
 TEMPLATE          = lib
-CONFIG           += qt warn_on debug
+CONFIG           += qt 
 MOC_DIR           = tmp
 OBJECTS_DIR       = tmp
 INCLUDEPATH       = ../include

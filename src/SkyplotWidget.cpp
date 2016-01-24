@@ -79,7 +79,6 @@ void SkyplotWidget::paint(QPainter *painter)
    float          size;
    float          satelliteSize;
    float          fontSize;
-   float          bottomMargin;
 
    float          availableWidth    = widgetSize.width ();
    float          availableHeight   = widgetSize.height();
