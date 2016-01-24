@@ -63,7 +63,7 @@ public:
       HalfVisible = 0x02,
       Marked      = 0x04,
       Flashing    = 0x08 };
-
+   Q_ENUMS( SatelliteState )
 
 #ifndef SKYPLOT_QML_SUPPORT
    explicit SkyplotWidget( QWidget *parent = nullptr );
@@ -73,7 +73,8 @@ public:
 
 #ifdef SKYPLOT_QML_SUPPORT
    static void declareQml( ) {
-      qmlRegisterType<SkyplotWidget>( "SkyplotWidget", 0, 1, "SkyplotWidget" );
+      qmlRegisterType<SkyplotWidget>( "SkyplotWidget", 2, 0, "SkyplotWidget" );
+      qmlRegisterType<SkyplotWidget>( "SatelliteState", 2, 0, "SatelliteState" );
    }
 #endif
 

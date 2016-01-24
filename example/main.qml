@@ -1,6 +1,7 @@
 import QtQuick 2.0
 import QtQuick.Controls 1.2
-import SkyplotWidget 0.1
+import SkyplotWidget 2.0
+import SatelliteState 2.0
 
 ApplicationWindow {
 
@@ -31,18 +32,31 @@ ApplicationWindow {
             MenuItem {
                 text: qsTr("Add Satellite")
                 onTriggered: {
-                  swid.addSatellite( idx, 
-                                     Math.random() * 360 , 
-                                     Math.random() * 90 , 
-                                     idx, 
-                                     "red", 
-                                     "green", 
-                                     "white", 
-                                     true, 
-                                     Math.floor( Math.random() * 2 ), 
-                                     Math.floor( Math.random() * 2 ), 
-                                     Math.floor( Math.random() * 2 ) 
-                                     );
+                  var state = SatelliteState.Visible
+                  if( Math.floor( Math.random() * 2 ) )
+                  {
+                     state = SatelliteState.HalfVisible
+                  }
+
+                  if( Math.floor( Math.random() * 2 ) )
+                  {
+                     state = state | SatelliteState.Blinking
+                  }
+
+                  if( Math.floor( Math.random() * 2 ) )
+                  {
+                     state = state | SatelliteState.Marked
+                  }
+
+                  swid.insert( idx, 
+                               Math.random() * 360 , 
+                               Math.random() * 90 , 
+                               idx, 
+                               "red", 
+                               "green", 
+                               "white",
+                               state
+                               );
                   idx = idx + 1;
                }
             }
