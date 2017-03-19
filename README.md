@@ -10,18 +10,16 @@ INSTALLATION:
 ===============
 
 
-Run the following
+**If you have a command line by your hand, do**
 
 ```
       qmake
       make
       make install
 ```
-to build and install the widget.
+to build and install the widgets.
 
-To make the widget available for the designer, please copy
-lib/libskyplotwidgetdesigner.so into your qt-designer's library directory.
-Linux users may check the environment-variable `QT_PLUGIN_PATH`.
+This not only installs the Skyplot widget, it also installs a designer plugin.
 
 To build the skyplot-widget with QML support, run the following:
 ```
@@ -32,7 +30,17 @@ To build the skyplot-widget with QML support, run the following:
 A QML/QtQuick example can be found in `examples/main.qml` and `examples/main.cpp`.
 
 
+**If you ware working with the Qt Creator:**
 
+Open the file `SkyplotWidget.pro` and adapt the Project settings:
+Add a custom build step with the make argument "install". After doing the build, the resulting files get installed.
+On windows, the installation path is set to `c:/skyplotwidget-x.x.x`. This path can be adapted in `src/src.pro`.
+
+**If you want to include the sources directly:**
+
+You only need to include `SkyplotWidget.pri` in your `*.pro` file and you have to define `SKYPLOTWIDGET_STATIC`.
+Have a look at `example/example.pro`.
+The `SKYPLOTWIDGET_STATIC` disables the `Q_DECL_EXPORT` / `Q_DECL_IMPORT` behaviour for the library (only relevant for windows).
 
 
 Usage:
@@ -42,6 +50,11 @@ See https://github.com/feddischson/skyplotwidget/wiki
 
 Versions
 ==============
+
+2.0.1
+------
+ - Fixes build issues on windows
+
 2.0.0
 ------
  - Changes the interface
