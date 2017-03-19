@@ -1,6 +1,6 @@
 TARGET            = skyplotwidgetdesigner
 TEMPLATE          = lib
-CONFIG           += qt warn_on plugin
+CONFIG           += qt warn_on plugin release
 MOC_DIR           = tmp
 OBJECTS_DIR       = tmp
 DEPENDPATH        = ../include ../src
