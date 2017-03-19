@@ -6,7 +6,7 @@ OBJECTS_DIR       = tmp
 DEPENDPATH        = .
 DESTDIR           = .
 QT               += 
-INCLUDEPATH       = . ../include/
+INCLUDEPATH       = .
 DEFINES          += SKYPLOTWIDGET_STATIC
 
 include(../SkyplotWidget.pri)
