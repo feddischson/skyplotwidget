@@ -123,3 +123,4 @@ SkyplotWidgetPlugin::createWidget( QWidget* parent )
 {
    return new SkyplotWidget( parent );
 }
+

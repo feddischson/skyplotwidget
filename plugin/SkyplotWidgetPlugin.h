@@ -16,9 +16,9 @@
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 
 #include <QtGlobal>
-#include <QDesignerCustomWidgetInterface>
+#include <QtUiPlugin/QDesignerCustomWidgetInterface>
 
-class SkyplotWidgetPlugin : public QObject, public QDesignerCustomWidgetInterface
+class Q_DECL_EXPORT SkyplotWidgetPlugin : public QObject, public QDesignerCustomWidgetInterface
 {
    Q_OBJECT
    Q_PLUGIN_METADATA(IID "org.qt-project.Qt.QDesignerCustomWidgetInterface" FILE "skyplotwidget.json")

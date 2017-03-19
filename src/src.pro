@@ -6,7 +6,7 @@ OBJECTS_DIR       = tmp
 INCLUDEPATH       = ../include
 DEPENDPATH        = ../include ../src
 DESTDIR           = ../lib
-
+DEFINES          += SKYPLOTWIDGET_LIBRARY
 include(../SkyplotWidget.pri)
 
 !contains(DEFINES, SKYPLOT_QML_SUPPORT) {
@@ -33,7 +33,7 @@ headers.files  = $$HEADERS
 
 
 #win32:TEMPLATE            = vclib
-win32:CONFIG              += dll 
+win32:CONFIG              += dll
 win32:dll:DEFINES         += QT_DLL
 win32:QMAKE_CXXFLAGS      += $$QMAKE_CFLAGS_STL
 

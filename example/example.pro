@@ -7,6 +7,8 @@ DEPENDPATH        = .
 DESTDIR           = .
 QT               += 
 INCLUDEPATH       = . ../include/
+DEFINES          += SKYPLOTWIDGET_STATIC
+
 include(../SkyplotWidget.pri)
 !contains(DEFINES, SKYPLOT_QML_SUPPORT) {
     QT += gui widgets
@@ -19,7 +21,6 @@ include(../SkyplotWidget.pri)
 }
 
 SOURCES += main.cpp
-LIBS += -L../lib -lskyplotwidget
 
 RESOURCES += \
     resources.qrc

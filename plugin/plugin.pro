@@ -1,13 +1,13 @@
 TARGET            = skyplotwidgetdesigner
 TEMPLATE          = lib
-CONFIG           += qt warn_on debug plugin
+CONFIG           += qt warn_on plugin
 MOC_DIR           = tmp
 OBJECTS_DIR       = tmp
 DEPENDPATH        = ../include ../src
 DESTDIR           = ../lib
 INCLUDEPATH      += ../include
-VERSION           = 1.0.1
 
+DEFINES          += SKYPLOTWIDGET_STATIC
 
 #win32:TEMPLATE             = vclib
 win32:CONFIG              += dll 
@@ -26,4 +26,7 @@ include(../SkyplotWidget.pri)
 
 OTHER_FILES += \
     skyplotwidget.json
+
+target.path = $$[QT_INSTALL_PLUGINS]/designer
+INSTALLS += target
 
