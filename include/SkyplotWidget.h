@@ -1,5 +1,5 @@
 // SkyplotWidget
-// Copyright (C) 2011-2016 Christian Haettich feddischson[at]gmx.com
+// Copyright (C) 2011-2017 Christian Haettich feddischson[at]gmail.com
 //
 // This library is free software; you can redistribute it and/or
 // modify it under the terms of the GNU Lesser General Public
