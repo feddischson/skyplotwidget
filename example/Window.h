@@ -1,19 +1,19 @@
- #ifndef WINDOW_H
- #define WINDOW_H
- #include "SkyplotWidget.h"
- #include <QWidget>
- #include <QGridLayout>
+#ifndef WINDOW_H
+#define WINDOW_H
 
+#include <QGridLayout>
+#include <QWidget>
 
- class Window : public QWidget
- {
-     Q_OBJECT
+#include "SkyplotWidget.h"
 
- public:
-     Window();
+class Window : public QWidget {
+   Q_OBJECT
 
- private:
-     SkyplotWidget *skyplotWidget;
- };
+  public:
+   Window();
 
- #endif
+  private:
+   SkyplotWidget *skyplotWidget;
+};
+
+#endif

@@ -1,5 +1,5 @@
 // SkyplotWidget
-// Copyright (C) 2011-2017 Christian Haettich feddischson[at]gmail.com
+// Copyright (C) 2011-2019 Christian Haettich feddischson[at]gmail.com
 //
 // This library is free software; you can redistribute it and/or
 // modify it under the terms of the GNU Lesser General Public
@@ -13,24 +13,20 @@
 //
 // You should have received a copy of the GNU Lesser General Public
 // License along with this library; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
-
-
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301 USA
 
 #ifndef _SKYPLOT_WIDGET_GLOBAL_H
 #define _SKYPLOT_WIDGET_GLOBAL_H
- #include <QtCore/QtGlobal>
-
+#include <QtCore/QtGlobal>
 
 #if defined(SKYPLOTWIDGET_STATIC)
-#  define SKYPLOTWIDGET_EXPORT
+#define SKYPLOTWIDGET_EXPORT
 #elif defined(SKYPLOTWIDGET_LIBRARY)
- # define SKYPLOTWIDGET_EXPORT Q_DECL_EXPORT
+#define SKYPLOTWIDGET_EXPORT Q_DECL_EXPORT
 #else
- #  define SKYPLOTWIDGET_EXPORT Q_DECL_IMPORT
- #endif
+#define SKYPLOTWIDGET_EXPORT Q_DECL_IMPORT
+#endif
 
 #endif
 
 // vim: filetype=cpp et ts=3 sw=3 sts=3
-
