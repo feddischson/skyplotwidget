@@ -74,14 +74,14 @@ void SkyplotWidget::paint(QPainter *painter)
    QPalette p = QGuiApplication::palette();
 #endif
 
-   float topMargin;
-   float leftMargin;
-   float size;
-   float satelliteSize;
-   float fontSize;
+   qreal topMargin;
+   qreal leftMargin;
+   qreal size;
+   qreal satelliteSize;
+   qreal fontSize;
 
-   float availableWidth = widgetSize.width();
-   float availableHeight = widgetSize.height();
+   qreal availableWidth = widgetSize.width();
+   qreal availableHeight = widgetSize.height();
 
    if (availableHeight > availableWidth) {
       size = widgetSize.width() * p_marginScale;
@@ -107,8 +107,8 @@ void SkyplotWidget::paint(QPainter *painter)
    painter->setFont(QFont("Arial", static_cast<int>(fontSize)));
 
    // paint the circles
-   for (int i = 0; i < p_ellipses; i++) {
-      float radius = size / 2.0 - i * (size / (2.0 * p_ellipses));
+   for (quint16 i = 0; i < p_ellipses; i++) {
+      qreal radius = size / 2.0 - i * (size / (2.0 * p_ellipses));
       painter->setPen(QPen(p_gridColor, p_gridWidth));
       painter->drawEllipse(QPoint(size / 2.0, size / 2.0),
                            static_cast<int>(radius), static_cast<int>(radius));
@@ -121,17 +121,17 @@ void SkyplotWidget::paint(QPainter *painter)
    }
 
    // paint the crosses
-   for (int i = 0; i < p_crosses; i++) {
+   for (quint16 i = 0; i < p_crosses; i++) {
       QLineF line1;
       QLineF line2;
-      float angle =
-          static_cast<float>(i) * 90.0 / static_cast<float>(p_crosses);
+      qreal angle =
+          static_cast<qreal>(i) * 90.0 / static_cast<qreal>(p_crosses);
       line1.setP1(QPoint(size / 2.0, size / 2.0));
       line1.setLength(size / 2.0);
 
       QRectF textRect(0, 0, 4.0 * fontSize, fontSize + 2.0);
 
-      for (int c = 0; c < 4; c++) {
+      for (quint8 c = 0; c < 4; c++) {
          line1.setAngle(angle + c * 90.0 + 90.0);
          painter->setPen(QPen(p_gridColor, p_gridWidth));
          painter->drawLine(line1);
@@ -152,7 +152,7 @@ void SkyplotWidget::paint(QPainter *painter)
    QBrush innerBrush = QBrush(Qt::SolidPattern);
    QBrush outerBrush = QBrush();
 
-   foreach (auto s, satellites) {
+   for (const auto &s : satellites) {
       // skip invisible satellites
       if (s.state & SatelliteState::Invisible ||  // the invisible flag is set
 
@@ -162,10 +162,11 @@ void SkyplotWidget::paint(QPainter *painter)
 
           (s.state & SatelliteState::Flashing &&
            flash)  // flashing flag is set and flash is active
-      )
+      ) {
          continue;
+      }
 
-      float el_s = (90 - s.el) * size / (2 * 90.0);
+      qreal el_s = (90 - s.el) * size / (2 * 90.0);
       QRectF labelRect(0, 0, s.label.length() * satelliteSize,
                        satelliteSize + 2);
 
@@ -209,7 +210,7 @@ void SkyplotWidget::paint(QPainter *painter)
 #endif
 }
 
-void SkyplotWidget::insert(int id, float az, float el, const QString &label,
+void SkyplotWidget::insert(quint32 id, qreal az, qreal el, const QString &label,
                            const QColor &outerColor, const QColor &innerColor,
                            const QColor &fontColor, SatelliteState state) {
    Satellite sat;
@@ -226,66 +227,68 @@ void SkyplotWidget::insert(int id, float az, float el, const QString &label,
    satellites.insert(id, sat);
 }
 
-void SkyplotWidget::remove(int id) { satellites.remove(id); }
+void SkyplotWidget::remove(quint32 id) { satellites.remove(id); }
 
-bool SkyplotWidget::contains(int id) const { return satellites.contains(id); }
+bool SkyplotWidget::contains(quint32 id) const {
+   return satellites.contains(id);
+}
 
-QColor SkyplotWidget::innerColor(int id) const {
+QColor SkyplotWidget::innerColor(quint32 id) const {
    return satellites[id].innerColor;
 }
 
-QColor SkyplotWidget::outerColor(int id) const {
+QColor SkyplotWidget::outerColor(quint32 id) const {
    return satellites[id].outerColor;
 }
 
-QColor SkyplotWidget::fontColor(int id) const {
+QColor SkyplotWidget::fontColor(quint32 id) const {
    return satellites[id].fontColor;
 }
 
-void SkyplotWidget::setInnerColor(int id, const QColor &c) {
+void SkyplotWidget::setInnerColor(quint32 id, const QColor &c) {
    satellites[id].innerColor = c;
    this->update();
 }
 
-void SkyplotWidget::setOuterColor(int id, const QColor &c) {
+void SkyplotWidget::setOuterColor(quint32 id, const QColor &c) {
    satellites[id].outerColor = c;
 }
 
-void SkyplotWidget::setFontColor(int id, const QColor &c) {
+void SkyplotWidget::setFontColor(quint32 id, const QColor &c) {
    satellites[id].fontColor = c;
 }
 
-SkyplotWidget::SatelliteState SkyplotWidget::state(int id) const {
+SkyplotWidget::SatelliteState SkyplotWidget::state(quint32 id) const {
    return satellites[id].state;
 }
 
-void SkyplotWidget::setState(int id, SatelliteState state) {
+void SkyplotWidget::setState(quint32 id, SatelliteState state) {
    satellites[id].state = state;
    this->update();
 }
 
-QString SkyplotWidget::label(int id) const { return satellites[id].label; }
+QString SkyplotWidget::label(quint32 id) const { return satellites[id].label; }
 
-void SkyplotWidget::setLabel(int id, const QString &label) {
+void SkyplotWidget::setLabel(quint32 id, const QString &label) {
    satellites[id].label = label;
    this->update();
 }
 
-float SkyplotWidget::azimuth(int id) const { return satellites[id].az; }
+qreal SkyplotWidget::azimuth(quint32 id) const { return satellites[id].az; }
 
-float SkyplotWidget::elevation(int id) const { return satellites[id].el; }
+qreal SkyplotWidget::elevation(quint32 id) const { return satellites[id].el; }
 
-void SkyplotWidget::setAzimuth(int id, float az) {
+void SkyplotWidget::setAzimuth(quint32 id, qreal az) {
    satellites[id].az = az;
    this->update();
 }
 
-void SkyplotWidget::setElevation(int id, float el) {
+void SkyplotWidget::setElevation(quint32 id, qreal el) {
    satellites[id].el = el;
    this->update();
 }
 
-QList<int> SkyplotWidget::ids(void) const { return satellites.keys(); }
+QList<quint32> SkyplotWidget::ids(void) const { return satellites.keys(); }
 
 SkyplotWidget::SatelliteState operator|(SkyplotWidget::SatelliteState lhs,
                                         SkyplotWidget::SatelliteState rhs) {

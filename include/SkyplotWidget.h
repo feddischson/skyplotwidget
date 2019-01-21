@@ -40,16 +40,16 @@ class SKYPLOTWIDGET_EXPORT SkyplotWidget : public QQuickPaintedItem
    Q_OBJECT
 
    Q_CLASSINFO("Version", _SKP_VERSION)
-   Q_PROPERTY(float marginScale READ marginScale WRITE setMarginScale)
-   Q_PROPERTY(float satelliteScale READ satelliteScale WRITE setSatelliteScale)
-   Q_PROPERTY(float fontScale READ fontScale WRITE setFontScale)
+   Q_PROPERTY(qreal marginScale READ marginScale WRITE setMarginScale)
+   Q_PROPERTY(qreal satelliteScale READ satelliteScale WRITE setSatelliteScale)
+   Q_PROPERTY(qreal fontScale READ fontScale WRITE setFontScale)
    Q_PROPERTY(QColor gridColor READ gridColor WRITE setGridColor)
    Q_PROPERTY(QColor gridTextColor READ gridTextColor WRITE setGridTextColor)
-   Q_PROPERTY(int gridWidth READ gridWidth WRITE setGridWidth)
-   Q_PROPERTY(int ellipses READ ellipses WRITE setEllipses)
-   Q_PROPERTY(int crosses READ crosses WRITE setCrosses)
-   Q_PROPERTY(int textMargin READ textMargin WRITE setTextMargin)
-   Q_PROPERTY(int flashIntervall READ flashIntervall WRITE setFlashIntervall)
+   Q_PROPERTY(qreal gridWidth READ gridWidth WRITE setGridWidth)
+   Q_PROPERTY(quint16 ellipses READ ellipses WRITE setEllipses)
+   Q_PROPERTY(quint16 crosses READ crosses WRITE setCrosses)
+   Q_PROPERTY(qint16 textMargin READ textMargin WRITE setTextMargin)
+   Q_PROPERTY(std::chrono::milliseconds flashIntervall READ flashIntervall WRITE setFlashIntervall)
    Q_PROPERTY(bool withGridLabels READ withGridLabels WRITE setWithGridLabels)
    Q_PROPERTY(bool antialiased READ antialiased WRITE setAntialiased)
 
@@ -84,15 +84,15 @@ class SKYPLOTWIDGET_EXPORT SkyplotWidget : public QQuickPaintedItem
    SkyplotWidget& operator=(SkyplotWidget&& rhs) = delete;
    ~SkyplotWidget() = default;
 
-   void setMarginScale(float scale) {
+   void setMarginScale(qreal scale) {
       p_marginScale = scale;
       this->update();
    }
-   void setSatelliteScale(float scale) {
+   void setSatelliteScale(qreal scale) {
       p_satScale = scale;
       this->update();
    }
-   void setFontScale(float scale) {
+   void setFontScale(qreal scale) {
       p_fontScale = scale;
       this->update();
    }
@@ -104,23 +104,23 @@ class SKYPLOTWIDGET_EXPORT SkyplotWidget : public QQuickPaintedItem
       p_gridTextColor = color;
       this->update();
    }
-   void setGridWidth(int width) {
+   void setGridWidth(qreal width) {
       p_gridWidth = width;
       this->update();
    }
-   void setEllipses(int no) {
+   void setEllipses(quint16 no) {
       p_ellipses = no;
       this->update();
    }
-   void setCrosses(int no) {
+   void setCrosses(quint16 no) {
       p_crosses = no;
       this->update();
    }
-   void setTextMargin(int margin) {
+   void setTextMargin(qint16 margin) {
       p_textMargin = margin;
       this->update();
    }
-   void setFlashIntervall(int intervall) {
+   void setFlashIntervall(std::chrono::milliseconds intervall) {
       p_flashIntervall = intervall;
       this->update();
    }
@@ -133,49 +133,49 @@ class SKYPLOTWIDGET_EXPORT SkyplotWidget : public QQuickPaintedItem
       this->update();
    }
 
-   float marginScale(void) const { return p_marginScale; }
-   float satelliteScale(void) const { return p_satScale; }
-   float fontScale(void) const { return p_fontScale; }
+   qreal marginScale(void) const { return p_marginScale; }
+   qreal satelliteScale(void) const { return p_satScale; }
+   qreal fontScale(void) const { return p_fontScale; }
    const QColor& gridColor(void) const { return p_gridColor; }
    const QColor& gridTextColor(void) const { return p_gridTextColor; }
    int gridWidth(void) const { return p_gridWidth; }
-   int ellipses(void) const { return p_ellipses; }
-   int crosses(void) const { return p_crosses; }
-   int textMargin(void) const { return p_textMargin; }
-   int flashIntervall(void) const { return p_flashIntervall; }
+   quint16 ellipses(void) const { return p_ellipses; }
+   quint16 crosses(void) const { return p_crosses; }
+   qint16 textMargin(void) const { return p_textMargin; }
+   std::chrono::milliseconds flashIntervall(void) const { return p_flashIntervall; }
    int withGridLabels(void) const { return p_withGridLabels; }
    int antialiased(void) const { return p_antialiased; }
 
-   QColor innerColor(int id) const;
-   QColor outerColor(int id) const;
-   QColor fontColor(int id) const;
-   SatelliteState state(int id) const;
-   QString label(int id) const;
-   float azimuth(int id) const;
-   float elevation(int id) const;
+   QColor innerColor(quint32 id) const;
+   QColor outerColor(quint32 id) const;
+   QColor fontColor(quint32 id) const;
+   SatelliteState state(quint32 id) const;
+   QString label(quint32 id) const;
+   qreal azimuth(quint32 id) const;
+   qreal elevation(quint32 id) const;
 
-   QList<int> ids(void) const;
+   QList<quint32> ids(void) const;
 
   public slots:
 
-   void insert(int id, float az = 0, float el = 90.0,
+   void insert(quint32 id, qreal az = 0, qreal el = 90.0,
                const QString& label = QString(""),
                const QColor& outerColor = Qt::red,
                const QColor& innerColor = Qt::lightGray,
                const QColor& fontColor = Qt::black,
                SatelliteState state = SatelliteState::Visible);
 
-   void remove(int id);
+   void remove(quint32 id);
 
-   bool contains(int id) const;
+   bool contains(quint32 id) const;
 
-   void setInnerColor(int id, const QColor& c);
-   void setOuterColor(int id, const QColor& c);
-   void setFontColor(int id, const QColor& c);
-   void setState(int id, SatelliteState state);
-   void setLabel(int id, const QString& label);
-   void setAzimuth(int id, float az);
-   void setElevation(int id, float el);
+   void setInnerColor(quint32 id, const QColor& c);
+   void setOuterColor(quint32 id, const QColor& c);
+   void setFontColor(quint32 id, const QColor& c);
+   void setState(quint32 id, SatelliteState state);
+   void setLabel(quint32 id, const QString& label);
+   void setAzimuth(quint32 id, qreal az);
+   void setElevation(quint32 id, qreal el);
 
   protected:
 #ifndef SKYPLOT_QML_SUPPORT
@@ -188,16 +188,16 @@ class SKYPLOTWIDGET_EXPORT SkyplotWidget : public QQuickPaintedItem
    bool flash;
    QTimer flashTimer;
 
-   float p_marginScale;
-   float p_satScale;
-   float p_fontScale;
+   qreal p_marginScale;
+   qreal p_satScale;
+   qreal p_fontScale;
    QColor p_gridColor;
    QColor p_gridTextColor;
-   int p_gridWidth;
-   int p_ellipses;
-   int p_crosses;
-   int p_textMargin;
-   int p_flashIntervall;
+   qreal p_gridWidth;
+   quint16 p_ellipses;
+   quint16 p_crosses;
+   qint16 p_textMargin;
+   std::chrono::milliseconds p_flashIntervall;
    bool p_withGridLabels;
    bool p_antialiased;
 
@@ -206,12 +206,12 @@ class SKYPLOTWIDGET_EXPORT SkyplotWidget : public QQuickPaintedItem
       QColor innerColor;
       QColor outerColor;
       QColor fontColor;
-      float az;
-      float el;
+      qreal az;
+      qreal el;
       SatelliteState state;
    } Satellite;
 
-   QHash<int, Satellite> satellites;
+   QHash<quint32, Satellite> satellites;
 
   private slots:
    void change_flash(void);
