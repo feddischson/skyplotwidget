@@ -14,7 +14,7 @@
 // You should have received a copy of the GNU Lesser General Public
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301 USA
-#include <stdlib.h>
+#include <cstdlib>
 
 #include <QDebug>
 #include <QGuiApplication>
@@ -51,10 +51,10 @@ SkyplotWidget::SkyplotWidget(QQuickPaintedItem *parent)
 #endif
    flashTimer.setInterval(p_flashIntervall);
    connect(&flashTimer, SIGNAL(timeout()), this, SLOT(change_flash()));
-   flashTimer.start(p_flashIntervall);
+   flashTimer.start();
 }
 
-void SkyplotWidget::change_flash(void) {
+void SkyplotWidget::change_flash() {
    flash = !flash;
    this->update();
 }
@@ -68,7 +68,7 @@ void SkyplotWidget::paint(QPainter *painter)
 #ifndef SKYPLOT_QML_SUPPORT
    QSize widgetSize(this->size());
    QPalette p = palette();
-   QPainter *painter = new QPainter(this);
+   auto painter = std::make_shared<QPainter>(this);
 #else
    QSize widgetSize(this->width(), this->height());
    QPalette p = QGuiApplication::palette();
@@ -140,11 +140,12 @@ void SkyplotWidget::paint(QPainter *painter)
             line2 = QLineF(line1);
             line2.setLength(size / 2.0 + 2.0 * fontSize);
             textRect.moveCenter(line2.p2());
-            if (i > 0)
+            if (i > 0) {
                painter->drawText(textRect, Qt::AlignCenter,
                                  QString("%1").arg(360.0 - (c * 90.0) - angle));
-            else
+            } else {
                painter->drawText(textRect, Qt::AlignCenter, QString("N"));
+            }
          }
       }
    }
@@ -190,10 +191,11 @@ void SkyplotWidget::paint(QPainter *painter)
       // paint the inner circle
       innerBrush.setColor(innerColor);
       painter->setBrush(innerBrush);
-      if (s.state & SatelliteState::Marked)
+      if (s.state & SatelliteState::Marked) {
          painter->setPen(QPen(outerColor, satelliteSize / 4));
-      else
+      } else {
          painter->setPen(QPen(p_gridColor, 0));
+      }
       painter->drawEllipse(satPos, static_cast<int>(satelliteSize),
                            static_cast<int>(satelliteSize));
 
@@ -204,10 +206,6 @@ void SkyplotWidget::paint(QPainter *painter)
       labelRect.moveCenter(satPos);
       painter->drawText(labelRect, Qt::AlignCenter, s.label);
    }
-
-#ifndef SKYPLOT_QML_SUPPORT
-   delete painter;
-#endif
 }
 
 void SkyplotWidget::insert(quint32 id, qreal az, qreal el, const QString &label,
@@ -288,7 +286,7 @@ void SkyplotWidget::setElevation(quint32 id, qreal el) {
    this->update();
 }
 
-QList<quint32> SkyplotWidget::ids(void) const { return satellites.keys(); }
+QList<quint32> SkyplotWidget::ids() const { return satellites.keys(); }
 
 SkyplotWidget::SatelliteState operator|(SkyplotWidget::SatelliteState lhs,
                                         SkyplotWidget::SatelliteState rhs) {

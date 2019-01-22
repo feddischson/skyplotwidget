@@ -46,10 +46,11 @@ class SKYPLOTWIDGET_EXPORT SkyplotWidget : public QQuickPaintedItem
    Q_PROPERTY(QColor gridColor READ gridColor WRITE setGridColor)
    Q_PROPERTY(QColor gridTextColor READ gridTextColor WRITE setGridTextColor)
    Q_PROPERTY(qreal gridWidth READ gridWidth WRITE setGridWidth)
-   Q_PROPERTY(quint16 ellipses READ ellipses WRITE setEllipses)
-   Q_PROPERTY(quint16 crosses READ crosses WRITE setCrosses)
-   Q_PROPERTY(qint16 textMargin READ textMargin WRITE setTextMargin)
-   Q_PROPERTY(std::chrono::milliseconds flashIntervall READ flashIntervall WRITE setFlashIntervall)
+   Q_PROPERTY(int ellipses READ ellipses WRITE setEllipses)
+   Q_PROPERTY(int crosses READ crosses WRITE setCrosses)
+   Q_PROPERTY(int textMargin READ textMargin WRITE setTextMargin)
+   Q_PROPERTY(int flashIntervall READ flashIntervall WRITE
+                  setFlashIntervall)
    Q_PROPERTY(bool withGridLabels READ withGridLabels WRITE setWithGridLabels)
    Q_PROPERTY(bool antialiased READ antialiased WRITE setAntialiased)
 
@@ -120,8 +121,9 @@ class SKYPLOTWIDGET_EXPORT SkyplotWidget : public QQuickPaintedItem
       p_textMargin = margin;
       this->update();
    }
-   void setFlashIntervall(std::chrono::milliseconds intervall) {
+   void setFlashIntervall(quint16 intervall) {
       p_flashIntervall = intervall;
+      flashTimer.setInterval(p_flashIntervall);
       this->update();
    }
    void setWithGridLabels(int withLabels) {
@@ -133,18 +135,18 @@ class SKYPLOTWIDGET_EXPORT SkyplotWidget : public QQuickPaintedItem
       this->update();
    }
 
-   qreal marginScale(void) const { return p_marginScale; }
-   qreal satelliteScale(void) const { return p_satScale; }
-   qreal fontScale(void) const { return p_fontScale; }
-   const QColor& gridColor(void) const { return p_gridColor; }
-   const QColor& gridTextColor(void) const { return p_gridTextColor; }
-   int gridWidth(void) const { return p_gridWidth; }
-   quint16 ellipses(void) const { return p_ellipses; }
-   quint16 crosses(void) const { return p_crosses; }
-   qint16 textMargin(void) const { return p_textMargin; }
-   std::chrono::milliseconds flashIntervall(void) const { return p_flashIntervall; }
-   int withGridLabels(void) const { return p_withGridLabels; }
-   int antialiased(void) const { return p_antialiased; }
+   qreal marginScale() const { return p_marginScale; }
+   qreal satelliteScale() const { return p_satScale; }
+   qreal fontScale() const { return p_fontScale; }
+   const QColor& gridColor() const { return p_gridColor; }
+   const QColor& gridTextColor() const { return p_gridTextColor; }
+   int gridWidth() const { return p_gridWidth; }
+   quint16 ellipses() const { return p_ellipses; }
+   quint16 crosses() const { return p_crosses; }
+   qint16 textMargin() const { return p_textMargin; }
+   quint16 flashIntervall() const { return p_flashIntervall; }
+   int withGridLabels() const { return p_withGridLabels; }
+   int antialiased() const { return p_antialiased; }
 
    QColor innerColor(quint32 id) const;
    QColor outerColor(quint32 id) const;
@@ -154,7 +156,7 @@ class SKYPLOTWIDGET_EXPORT SkyplotWidget : public QQuickPaintedItem
    qreal azimuth(quint32 id) const;
    qreal elevation(quint32 id) const;
 
-   QList<quint32> ids(void) const;
+   QList<quint32> ids() const;
 
   public slots:
 
@@ -197,7 +199,7 @@ class SKYPLOTWIDGET_EXPORT SkyplotWidget : public QQuickPaintedItem
    quint16 p_ellipses;
    quint16 p_crosses;
    qint16 p_textMargin;
-   std::chrono::milliseconds p_flashIntervall;
+   quint16 p_flashIntervall;
    bool p_withGridLabels;
    bool p_antialiased;
 
@@ -214,7 +216,7 @@ class SKYPLOTWIDGET_EXPORT SkyplotWidget : public QQuickPaintedItem
    QHash<quint32, Satellite> satellites;
 
   private slots:
-   void change_flash(void);
+   void change_flash();
 };
 
 SkyplotWidget::SatelliteState operator|(SkyplotWidget::SatelliteState lhs,
