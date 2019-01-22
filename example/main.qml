@@ -12,6 +12,7 @@ ApplicationWindow {
     width: 640
     height: 480
     title: qsTr("SkyplotWidget Example")
+    color: "#202020"
 
     SkyplotWidget {
         anchors.fill:   parent
@@ -19,6 +20,15 @@ ApplicationWindow {
         antialiased:    true
         crosses:        3
         ellipses:       5
+        flashIntervall: 300
+        marginScale:    0.70
+        satelliteScale: 0.06
+        fontScale:      0.04
+        gridColor:      "steelblue"
+        gridTextColor:  "#FF0000"
+        gridWidth:      4
+        textMargin:     8
+        withGridLabels: true
     }
 
 
@@ -33,17 +43,17 @@ ApplicationWindow {
                 text: qsTr("Add Satellite")
                 onTriggered: {
                   var state = SatelliteState.Visible
-                  if( Math.floor( Math.random() * 2 ) )
+                  if( Math.floor( Math.random()+0.5 ) )
                   {
                      state = SatelliteState.HalfVisible
                   }
 
-                  if( Math.floor( Math.random() * 2 ) )
+                  if( Math.floor( Math.random()+0.5 ) )
                   {
-                     state = state | SatelliteState.Blinking
+                     state = state | SatelliteState.Flashing
                   }
 
-                  if( Math.floor( Math.random() * 2 ) )
+                  if( Math.floor( Math.random()+0.5  ) )
                   {
                      state = state | SatelliteState.Marked
                   }
