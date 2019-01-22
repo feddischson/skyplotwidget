@@ -53,6 +53,10 @@ Versions
 
 2.0.1
 ------
+ - Improves QML exampe
+ - Improves C++ coding style
+ - Improves internal types and interfaces
+ - Fixes flash timer issue
  - Fixes build issues on windows
 
 2.0.0
