@@ -169,6 +169,8 @@ class SKYPLOTWIDGET_EXPORT SkyplotWidget : public QQuickPaintedItem
 
    void remove(quint32 id);
 
+   void removeAll();
+
    bool contains(quint32 id) const;
 
    void setInnerColor(quint32 id, const QColor& c);

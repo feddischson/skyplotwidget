@@ -227,6 +227,10 @@ void SkyplotWidget::insert(quint32 id, qreal az, qreal el, const QString &label,
 
 void SkyplotWidget::remove(quint32 id) { satellites.remove(id); }
 
+void SkyplotWidget::removeAll(){
+   satellites.clear();
+}
+
 bool SkyplotWidget::contains(quint32 id) const {
    return satellites.contains(id);
 }
