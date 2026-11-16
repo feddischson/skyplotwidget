@@ -140,7 +140,7 @@ class SKYPLOTWIDGET_EXPORT SkyplotWidget : public QQuickPaintedItem
    qreal fontScale() const { return p_fontScale; }
    const QColor& gridColor() const { return p_gridColor; }
    const QColor& gridTextColor() const { return p_gridTextColor; }
-   int gridWidth() const { return p_gridWidth; }
+   qreal gridWidth() const { return p_gridWidth; }
    quint16 ellipses() const { return p_ellipses; }
    quint16 crosses() const { return p_crosses; }
    qint16 textMargin() const { return p_textMargin; }
