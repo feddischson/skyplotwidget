@@ -1,5 +1,5 @@
 import QtQuick 2.0
-import QtQuick.Controls 1.2
+import QtQuick.Controls 2.3
 import SkyplotWidget 2.0
 import SatelliteState 2.0
 

@@ -14,7 +14,7 @@ int main(int argc, char *argv[]) {
    Window window;
 
    QPalette p(window.palette());
-   p.setColor(QPalette::Background, Qt::black);
+   p.setColor(QPalette::Window, Qt::black);
    window.setPalette(p);
 
    window.show();
