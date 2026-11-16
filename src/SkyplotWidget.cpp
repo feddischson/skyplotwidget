@@ -144,7 +144,9 @@ void SkyplotWidget::paint(QPainter *painter)
                painter->drawText(textRect, Qt::AlignCenter,
                                  QString("%1").arg(360.0 - (c * 90.0) - angle));
             } else {
-               painter->drawText(textRect, Qt::AlignCenter, QString("N"));
+               // directions
+               static const QString directions[] = {"N","W","S","E"};
+               painter->drawText(textRect, Qt::AlignCenter, QString(directions[c]));
             }
          }
       }
