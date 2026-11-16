@@ -71,6 +71,9 @@ class SKYPLOTWIDGET_EXPORT SkyplotWidget : public QQuickPaintedItem
 #endif
 
 #ifdef SKYPLOT_QML_SUPPORT
+   using QQuickPaintedItem::contains;
+   using QQuickPaintedItem::state;
+
    static void declareQml() {
       qmlRegisterType<SkyplotWidget>("SkyplotWidget", _SKP_VERSION_MAJ,
                                      _SKP_VERSION_MIN, "SkyplotWidget");
