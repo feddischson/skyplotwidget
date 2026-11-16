@@ -51,6 +51,11 @@ See https://github.com/feddischson/skyplotwidget/wiki
 Versions
 ==============
 
+2.0.2
+------
+ - Fix minor issues
+ - Add QT6 support
+
 2.0.1
 ------
  - Improves QML exampe
