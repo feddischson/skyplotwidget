@@ -227,10 +227,15 @@ void SkyplotWidget::insert(quint32 id, qreal az, qreal el, const QString &label,
    satellites.insert(id, sat);
 }
 
-void SkyplotWidget::remove(quint32 id) { satellites.remove(id); }
+void SkyplotWidget::remove(quint32 id) {
+   if (satellites.remove(id)) {
+      this->update();
+   }
+}
 
-void SkyplotWidget::removeAll(){
+void SkyplotWidget::removeAll() {
    satellites.clear();
+   this->update();
 }
 
 bool SkyplotWidget::contains(quint32 id) const {
@@ -264,6 +269,7 @@ void SkyplotWidget::setOuterColor(quint32 id, const QColor &c) {
       return;
    }
    it->outerColor = c;
+   this->update();
 }
 
 void SkyplotWidget::setFontColor(quint32 id, const QColor &c) {
@@ -272,6 +278,7 @@ void SkyplotWidget::setFontColor(quint32 id, const QColor &c) {
       return;
    }
    it->fontColor = c;
+   this->update();
 }
 
 SkyplotWidget::SatelliteState SkyplotWidget::state(quint32 id) const {
