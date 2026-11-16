@@ -116,7 +116,7 @@ void SkyplotWidget::paint(QPainter *painter)
          painter->setPen(QPen(p_gridTextColor, p_gridWidth));
          painter->drawText(QPoint(size / 2.0 + p_textMargin,
                                   size / 2.0 - (radius + p_textMargin)),
-                           QString("%1").arg(i * (90 / p_ellipses)));
+                           QString::number(qRound(i * 90.0 / p_ellipses)));
       }
    }
 
@@ -142,7 +142,7 @@ void SkyplotWidget::paint(QPainter *painter)
             textRect.moveCenter(line2.p2());
             if (i > 0) {
                painter->drawText(textRect, Qt::AlignCenter,
-                                 QString("%1").arg(360.0 - (c * 90.0) - angle));
+                                 QString::number(qRound(360.0 - (c * 90.0) - angle)));
             } else {
                // directions
                static const QString directions[] = {"N","W","S","E"};
