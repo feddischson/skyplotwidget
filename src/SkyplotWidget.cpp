@@ -250,16 +250,28 @@ QColor SkyplotWidget::fontColor(quint32 id) const {
 }
 
 void SkyplotWidget::setInnerColor(quint32 id, const QColor &c) {
-   satellites[id].innerColor = c;
+   auto it = satellites.find(id);
+   if (it == satellites.end()) {
+      return;
+   }
+   it->innerColor = c;
    this->update();
 }
 
 void SkyplotWidget::setOuterColor(quint32 id, const QColor &c) {
-   satellites[id].outerColor = c;
+   auto it = satellites.find(id);
+   if (it == satellites.end()) {
+      return;
+   }
+   it->outerColor = c;
 }
 
 void SkyplotWidget::setFontColor(quint32 id, const QColor &c) {
-   satellites[id].fontColor = c;
+   auto it = satellites.find(id);
+   if (it == satellites.end()) {
+      return;
+   }
+   it->fontColor = c;
 }
 
 SkyplotWidget::SatelliteState SkyplotWidget::state(quint32 id) const {
@@ -267,14 +279,22 @@ SkyplotWidget::SatelliteState SkyplotWidget::state(quint32 id) const {
 }
 
 void SkyplotWidget::setState(quint32 id, SatelliteState state) {
-   satellites[id].state = state;
+   auto it = satellites.find(id);
+   if (it == satellites.end()) {
+      return;
+   }
+   it->state = state;
    this->update();
 }
 
 QString SkyplotWidget::label(quint32 id) const { return satellites[id].label; }
 
 void SkyplotWidget::setLabel(quint32 id, const QString &label) {
-   satellites[id].label = label;
+   auto it = satellites.find(id);
+   if (it == satellites.end()) {
+      return;
+   }
+   it->label = label;
    this->update();
 }
 
@@ -283,12 +303,20 @@ qreal SkyplotWidget::azimuth(quint32 id) const { return satellites[id].az; }
 qreal SkyplotWidget::elevation(quint32 id) const { return satellites[id].el; }
 
 void SkyplotWidget::setAzimuth(quint32 id, qreal az) {
-   satellites[id].az = az;
+   auto it = satellites.find(id);
+   if (it == satellites.end()) {
+      return;
+   }
+   it->az = az;
    this->update();
 }
 
 void SkyplotWidget::setElevation(quint32 id, qreal el) {
-   satellites[id].el = el;
+   auto it = satellites.find(id);
+   if (it == satellites.end()) {
+      return;
+   }
+   it->el = el;
    this->update();
 }
 
